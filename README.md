@@ -1,6 +1,25 @@
 # Declarative
 
-TODO: Write a gem description
+_DSL for nested schemas._
+
+# Overview
+
+Declarative allows _declaring_ nested schemas.
+
+```ruby
+class Schema < Declarative::Schema
+  property :title
+
+  property :songs do
+    property :id
+    property :name
+  end
+end
+```
+
+It also lets you define schemas in modules.
+
+Declarative is the generic schema engine in Representable, Disposable, Trailblazer, and many more gems.
 
 ## Installation
 
@@ -10,22 +29,7 @@ Add this line to your application's Gemfile:
 gem 'declarative'
 ```
 
-And then execute:
 
-    $ bundle
+## Copyright
 
-Or install it yourself as:
-
-    $ gem install declarative
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/declarative/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+* Copyright (c) 2015 Nick Sutterer <apotonick@gmail.com>
