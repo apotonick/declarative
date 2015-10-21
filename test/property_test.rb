@@ -2,6 +2,8 @@ require "test_helper"
 
 class PropertyTest < Minitest::Spec
   it do
+    skip
+
     schema = Class.new(Representable::Decorator)
     schema.property :artist do
       property :name
