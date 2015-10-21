@@ -18,8 +18,8 @@ module Declarative
 
   module Inheritance
     def included(includer)
-      declarative_attrs.each do |method, args|
-        args.each { |name, options, block| includer.send(method, name, options, &block) }
+      declarative_attrs.each do |method, calls|
+        calls.each { |cfg| includer.send(method, *cfg[:args], &cfg[:block]) }
       end
     end
   end
