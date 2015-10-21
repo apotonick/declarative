@@ -32,11 +32,12 @@ class DeclarativeTest < Minitest::Spec
     include Declarative
     include RepresenterA
 
-    # add more.
+    # add more. they shouldn't bleed into RepresenterA, of course.
+    property :label
   end
 
-  it { RepresenterA.declarative_attrs.inspect.must_equal  "{:property=>[[:id, {}, nil], [:artist, {}, #<Proc:@test/declarative_test.rb:20>]]}" }
-  it { DecoratorA.declarative_attrs.inspect.must_equal    "{:property=>[[:id, {}, nil], [:artist, {}, #<Proc:@test/declarative_test.rb:20>]]}" }
+  it { RepresenterA.declarative_attrs.inspect.must_equal  "{:property=>[[:id, {}, nil], [:artist, {}, #<Proc:@test/declarative_test.rb:21>]]}" }
+  it { DecoratorA.declarative_attrs.inspect.must_equal    "{:property=>[[:id, {}, nil], [:artist, {}, #<Proc:@test/declarative_test.rb:21>], [:label, {}, nil]]}" }
 
   # attrs[:property] when it wasn't initialized
 end
