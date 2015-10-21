@@ -41,3 +41,20 @@ class DeclarativeTest < Minitest::Spec
 
   # attrs[:property] when it wasn't initialized
 end
+
+
+require "declarative/property"
+class PropertyTest < Minitest::Spec
+  module RepresenterA
+    include Declarative
+    extend Declarative::Property
+
+    global_options = {decorator: true}
+
+    property :id, global_options
+    property :artist, global_options
+    declarative_attrs[:property][1][:args][1][:decorator] = false # TODO: use the property Definition interface for this.
+  end
+
+  it { RepresenterA.declarative_attrs.inspect.must_equal "{:property=>[{:args=>[:id, {:decorator=>true}], :block=>nil}, {:args=>[:artist, {:decorator=>false}], :block=>nil}]}" }
+end
