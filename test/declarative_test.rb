@@ -13,8 +13,7 @@ class DeclarativeTest < Minitest::Spec
 
     # TODO: test options cloning.
     def self.property(name, options={}, &block)
-      declarative_attrs[:property] ||= []
-      declarative_attrs[:property] << {args: [name, options], block: block.extend(Inspect)}
+      heritage.record(:property, name, options, &block.extend(Inspect))
     end
 
     property :id
@@ -25,8 +24,7 @@ class DeclarativeTest < Minitest::Spec
 
   class DecoratorA
     def self.property(name, options={}, &block)
-      declarative_attrs[:property] ||= []
-      declarative_attrs[:property] << {args: [name, options], block: block.extend(Inspect)}
+      heritage.record(:property, name, options, &block.extend(Inspect))
     end
 
     include Declarative
@@ -36,8 +34,8 @@ class DeclarativeTest < Minitest::Spec
     property :label
   end
 
-  it { RepresenterA.declarative_attrs.inspect.must_equal  "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:21>}]}" }
-  it { DecoratorA.declarative_attrs.inspect.must_equal    "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:21>}, {:args=>[:label, {}], :block=>nil}]}" }
+  it { RepresenterA.heritage.inspect.must_equal  "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:20>}]}" }
+  it { DecoratorA.heritage.inspect.must_equal    "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:20>}, {:args=>[:label, {}], :block=>nil}]}" }
 
   # attrs[:property] when it wasn't initialized
 end
@@ -51,10 +49,15 @@ class PropertyTest < Minitest::Spec
 
     global_options = {decorator: true}
 
-    property :id, global_options
+    property :id,     global_options
     property :artist, global_options
-    declarative_attrs[:property][1][:args][1][:decorator] = false # TODO: use the property Definition interface for this.
+
+    heritage[:property][1][:args][1][:decorator] = false # TODO: use the property Definition interface for this.
   end
 
-  it { RepresenterA.declarative_attrs.inspect.must_equal "{:property=>[{:args=>[:id, {:decorator=>true}], :block=>nil}, {:args=>[:artist, {:decorator=>false}], :block=>nil}]}" }
+  it { RepresenterA.heritage.inspect.must_equal "{:property=>[{:args=>[:id, {:decorator=>true}], :block=>nil}, {:args=>[:artist, {:decorator=>false}], :block=>nil}]}" }
+
+  it do
+    pp RepresenterA.representable_attrs
+  end
 end

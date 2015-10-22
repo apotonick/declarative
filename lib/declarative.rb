@@ -6,20 +6,27 @@ module Declarative
   end
 
   module DSL
-    def declarative_attrs
-      @declarative_attrs ||= build_config
-    end
-
-    def build_config
-      # Config.new
-      {}
+    def heritage
+      @heritage ||= Heritage.new
     end
   end
 
   module Inheritance
     def included(includer)
-      declarative_attrs.each do |method, calls|
-        calls.each { |cfg| includer.send(method, *cfg[:args], &cfg[:block]) }
+      heritage.(includer)
+    end
+  end
+
+
+  class Heritage < Hash
+    def record(method, name, options, &block)
+      self[method] ||= []
+      self[method] << {args: [name, options.dup], block: block} # DISCUSS: options.dup.
+    end
+
+    def call(inheritor)
+      each do |method, calls|
+        calls.each { |cfg| inheritor.send(method, *cfg[:args], &cfg[:block]) }
       end
     end
   end
