@@ -13,6 +13,11 @@ module Declarative
         # setup!(options, &block)
         @options = options
       end
+
+      def [](name)
+        # @runtime_options[name]
+        @options[name]
+      end
     end
 
     def initialize(definition_class)
@@ -27,11 +32,34 @@ module Declarative
       # end
       # options.delete(:inherit) # TODO: can we handle the :inherit in one single place?
 
+      if block
+        base = nil
+        options[:nested] = build_nested(base, options[:include_modules], name, options, &block)
+      end
+
+
+
+
       self[name.to_s] = @definition_class.new(name, options, &block)
     end
 
     def get(name)
       self[name.to_s]
+    end
+
+  private
+    def build_nested(base, includes, name, options, &block)
+      nested = options.delete(:build_nested).()
+      nested.module_eval &block
+      nested
+
+      # Module.new do
+      #   # include Representable
+      #   # feature *features # Representable::JSON or similar.
+      #   include base if base # base when :inherit, or in decorator.
+
+      #   module_eval &block
+      # end
     end
   end
 end

@@ -4,7 +4,10 @@ require "declarative/schema"
 module Schema
   module Inspect
     def inspect
-      each { |n, dfn| dfn.extend(::Inspect) }
+      each { |n, dfn|
+        dfn.extend(::Inspect)
+        dfn[:nested].extend(::Inspect) if dfn[:nested]
+      }
       super
     end
 
@@ -18,7 +21,6 @@ class SchemaTest < Minitest::Spec
   let (:schema) { Declarative::Schema.new(Declarative::Schema::Definition).extend(Schema::Inspect) }
 
   it "what" do
-
     # #add works with name
     schema.add :id
     # get works with symbol
@@ -39,8 +41,27 @@ class SchemaTest < Minitest::Spec
     schema.inspect.must_equal '{"id"=>#<Declarative::Schema::Definition: @options={:cool=>true}, @name="id">}'
   end
 
-  it "#add with block" do
+  class Decorator
+    def self.add(*args, &block)
+      Declarative::Schema.new(Declarative::Schema::Definition)
+    end
+  end
 
+  it "#add with block" do
+    NestedBuilder = ->(*) { Declarative::Schema.new(Declarative::Schema::Definition).instance_eval do
+      def module_eval(&block) # FIXME: that's because build_nested calls #module_eval.
+        instance_exec(&block)
+      end
+      self
+    end }
+
+    schema.add :artist, build_nested: NestedBuilder do
+      add :name
+    end
+
+    schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">}}, @name="artist">}'
+
+    pp schema
   end
 
 
