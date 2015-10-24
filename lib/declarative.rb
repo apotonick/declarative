@@ -19,9 +19,10 @@ module Declarative
 
 
   class Heritage < Hash
-    def record(method, name, options, &block)
+    def record(method, name, options=nil, &block)
       self[method] ||= []
-      self[method] << {args: [name, options.dup], block: block} # DISCUSS: options.dup.
+      # FIXME: dup all additional args?
+      self[method] << {args: [name, options ? options.dup : nil].compact, block: block} # DISCUSS: options.dup.
     end
 
     def call(inheritor)

@@ -1,24 +1,15 @@
 require "test_helper"
 
 class DeclarativeTest < Minitest::Spec
-  module Inspect
-    def inspect
-      super.sub(/0x\w+/, "")
-    end
-  end
-
   module RepresenterA
     include Declarative
 
-
-    # TODO: test options cloning.
     def self.property(name, options={}, &block)
       heritage.record(:property, name, options, &block.extend(Inspect))
     end
 
     property :id
     property :artist do
-
     end
   end
 
@@ -34,10 +25,11 @@ class DeclarativeTest < Minitest::Spec
     property :label
   end
 
-  it { RepresenterA.heritage.inspect.must_equal  "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:20>}]}" }
-  it { DecoratorA.heritage.inspect.must_equal    "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:20>}, {:args=>[:label, {}], :block=>nil}]}" }
+  it { RepresenterA.heritage.inspect.must_equal  "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:12>}]}" }
+  it { DecoratorA.heritage.inspect.must_equal    "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:12>}, {:args=>[:label, {}], :block=>nil}]}" }
 
   # attrs[:property] when it wasn't initialized
+
 end
 
 
