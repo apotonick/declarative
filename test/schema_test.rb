@@ -7,6 +7,7 @@ module Schema
       each { |n, dfn|
         dfn.extend(::Inspect)
         dfn[:nested].extend(::Inspect) if dfn[:nested]
+        dfn[:nested].extend(::Schema::Inspect) if dfn[:nested]
       }
       super
     end
@@ -57,9 +58,12 @@ class SchemaTest < Minitest::Spec
 
     schema.add :artist, build_nested: NestedBuilder do
       add :name
+      add :band, build_nested: NestedBuilder do
+        add :location
+      end
     end
 
-    schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">}}, @name="artist">}'
+    schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">, "band"=>#<Declarative::Schema::Definition: @options={:nested=>{"location"=>#<Declarative::Schema::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">}'
 
     pp schema
   end
