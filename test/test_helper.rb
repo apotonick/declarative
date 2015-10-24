@@ -4,6 +4,6 @@ require "pp"
 
 module Inspect
   def inspect
-    super.sub(/0x\w+/, "")
+    super.sub(/0x\w+/, "").sub(/@.+\//, "")
   end
 end

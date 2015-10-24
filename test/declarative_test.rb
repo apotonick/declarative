@@ -25,8 +25,8 @@ class DeclarativeTest < Minitest::Spec
     property :label
   end
 
-  it { RepresenterA.heritage.inspect.must_equal  "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:12>}]}" }
-  it { DecoratorA.heritage.inspect.must_equal    "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@test/declarative_test.rb:12>}, {:args=>[:label, {}], :block=>nil}]}" }
+  it { RepresenterA.heritage.inspect.must_equal  "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:declarative_test.rb:12>}]}" }
+  it { DecoratorA.heritage.inspect.must_equal    "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:declarative_test.rb:12>}, {:args=>[:label, {}], :block=>nil}]}" }
 
   # attrs[:property] when it wasn't initialized
 
