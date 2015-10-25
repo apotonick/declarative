@@ -11,6 +11,13 @@ module Inspect
     end
     string.sub(/0x\w+/, "")
   end
+
+  module Schema
+    def inspect
+      definitions.extend(Definitions::Inspect)
+      "Schema: #{definitions.inspect}"
+    end
+  end
 end
 
 
@@ -19,8 +26,11 @@ module Definitions
     def inspect
       each { |n, dfn|
         dfn.extend(::Inspect)
-        dfn[:nested].extend(::Inspect) if dfn[:nested]
-        dfn[:nested].extend(::Definitions::Inspect) if dfn[:nested]
+        if dfn[:nested] && dfn[:nested].is_a?(Declarative::Schema::DSL)
+          dfn[:nested].extend(::Inspect::Schema)
+        else
+          dfn[:nested].extend(::Definitions::Inspect) if dfn[:nested]
+        end
       }
       super
     end

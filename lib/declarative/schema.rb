@@ -3,24 +3,22 @@ module Declarative
     module DSL
       def property(name, options={}, &block)
         options = {
-          build_nested: NestedBuilder,
           _composer:    default_nested_class,
         }.merge(options)
-        # TODO: test merge order. test :_composer.
 
-        puts "@@@@@ #{options.inspect}"
+        options[:build_nested] = NestedBuilder if block
+        # TODO: test merge order. test :_composer.
 
         definitions.add(name, options, &block)
       end
 
-    private
       def definitions
         @definitions ||= Definitions.new(Definitions::Definition)
       end
     end
 
     NestedBuilder = ->(options) {
-      base = options[:base]
+      base = Class.new(options[:base])
     }
 
       # Module.new do

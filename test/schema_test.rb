@@ -20,4 +20,11 @@ class SchemaTest < Minitest::Spec
 
     property :id, unique: true, value: 1
   end
+
+  it do
+    Decorator.extend(Inspect::Schema)
+    Decorator.inspect
+    # pp Decorator.definitions.extend(Definitions::Inspect)
+    pp Decorator.inspect
+  end
 end
