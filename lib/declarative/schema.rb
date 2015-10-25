@@ -14,6 +14,8 @@ module Declarative
         @options = options
       end
 
+      attr_reader :options # TODO: are we gonna keep this?
+
       def [](name)
         # @runtime_options[name]
         @options[name]
@@ -27,18 +29,16 @@ module Declarative
 
     # #add is DSL for Schema#[]=.
     def add(name, options={}, &block)
-      # if options[:inherit] and parent_property = get(name) # i like that: the :inherit shouldn't be handled outside.
-      #   return parent_property.merge!(options, &block)
-      # end
-      # options.delete(:inherit) # TODO: can we handle the :inherit in one single place?
+      base = nil
 
-      if block
-        base = nil
-        options[:nested] = build_nested(base, options[:include_modules], name, options, &block)
+      if options.delete(:inherit) and parent_property = get(name)
+        base = parent_property[:nested]
+        options = parent_property.options.merge(options) # TODO: Definition.merge
       end
 
-
-
+      if block
+        options[:nested] = build_nested(base, options[:include_modules], name, options, &block)
+      end
 
       self[name.to_s] = @definition_class.new(name, options, &block)
     end
@@ -49,7 +49,7 @@ module Declarative
 
   private
     def build_nested(base, includes, name, options, &block)
-      nested = options.delete(:build_nested).()
+      nested = options.delete(:build_nested).({base: base})
       nested.module_eval &block # this is normally Twin, Decorator, Module.new, etc.
       nested
 

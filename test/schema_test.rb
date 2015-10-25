@@ -19,12 +19,15 @@ module Schema
 end
 
 class SchemaTest < Minitest::Spec
-  NestedBuilder = ->(*) { Declarative::Schema.new(Declarative::Schema::Definition).instance_eval do
-    def module_eval(&block) # FIXME: that's because build_nested calls #module_eval.
-      instance_exec(&block)
+  NestedBuilder = ->(options) {
+    base = options[:base] || Declarative::Schema.new(Declarative::Schema::Definition)
+    base.instance_eval do # this doesn't copy and writes to the original!
+      def module_eval(&block) # FIXME: that's because build_nested calls #module_eval.
+        instance_exec(&block)
+      end
+      self
     end
-    self
-  end }
+  }
 
   let (:schema) { Declarative::Schema.new(Declarative::Schema::Definition).extend(Schema::Inspect) }
 
@@ -88,7 +91,7 @@ class SchemaTest < Minitest::Spec
     pp schema
 
 
-    schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">, "band"=>#<Declarative::Schema::Definition: @options={:nested=>{"location"=>#<Declarative::Schema::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">}'
+    schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">, "band"=>#<Declarative::Schema::Definition: @options={:nested=>{"location"=>#<Declarative::Schema::Definition: @options={}, @name="location">, "genre"=>#<Declarative::Schema::Definition: @options={}, @name="genre">}}, @name="band">}}, @name="artist">, "id"=>#<Declarative::Schema::Definition: @options={}, @name="id">}'
 
   end
 end
