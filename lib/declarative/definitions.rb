@@ -31,10 +31,10 @@ module Declarative
     # reserved options:
     #   :include_modules
     #   :_defaults
+    #   :_composer # TODO: test me.
     def add(name, options={}, &block)
       options = options.delete(:_defaults).(name, options) if options[:_defaults] # FIXME: pipeline?
-
-      base = nil
+      base    = options.delete(:_composer)
 
       if options.delete(:inherit) and parent_property = get(name)
         base = parent_property[:nested]
@@ -54,7 +54,7 @@ module Declarative
 
   private
     def build_nested(base, includes, name, options, &block)
-      nested = options.delete(:build_nested).({base: base})
+      nested = options.delete(:build_nested).(base: base)
       nested.module_eval &block # this is normally Twin, Decorator, Module.new, etc.
       nested
 
