@@ -73,17 +73,17 @@ class SchemaTest < Minitest::Spec
 
 
   it "#add with inherit: true and block" do
-    schema.add :artist, build_nested: NestedBuilder do
+    schema.add :artist, cool: true, build_nested: NestedBuilder do
       add :name
-      add :band, build_nested: NestedBuilder do
+      add :band, crazy: nil, build_nested: NestedBuilder do
         add :location
       end
     end
 
     schema.add :id
 
-    schema.add :artist, build_nested: NestedBuilder, inherit: true do
-      add :band, build_nested: NestedBuilder, inherit: true do
+    schema.add :artist, uncool: false, build_nested: NestedBuilder, inherit: true do
+      add :band, normal: false, build_nested: NestedBuilder, inherit: true do
         add :genre
       end
     end
@@ -91,7 +91,7 @@ class SchemaTest < Minitest::Spec
     pp schema
 
 
-    schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">, "band"=>#<Declarative::Schema::Definition: @options={:nested=>{"location"=>#<Declarative::Schema::Definition: @options={}, @name="location">, "genre"=>#<Declarative::Schema::Definition: @options={}, @name="genre">}}, @name="band">}}, @name="artist">, "id"=>#<Declarative::Schema::Definition: @options={}, @name="id">}'
+    schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:cool=>true, :nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">, "band"=>#<Declarative::Schema::Definition: @options={:crazy=>nil, :nested=>{"location"=>#<Declarative::Schema::Definition: @options={}, @name="location">, "genre"=>#<Declarative::Schema::Definition: @options={}, @name="genre">}, :normal=>false}, @name="band">}, :uncool=>false}, @name="artist">, "id"=>#<Declarative::Schema::Definition: @options={}, @name="id">}'
 
   end
 end

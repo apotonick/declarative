@@ -33,14 +33,14 @@ module Declarative
 
       if options.delete(:inherit) and parent_property = get(name)
         base = parent_property[:nested]
-        options = parent_property.options.merge(options) # TODO: Definition.merge
+        options = parent_property.options.merge(options) # TODO: Definition#merge
       end
 
       if block
         options[:nested] = build_nested(base, options[:include_modules], name, options, &block)
       end
 
-      self[name.to_s] = @definition_class.new(name, options, &block)
+      self[name.to_s] = @definition_class.new(name, options)
     end
 
     def get(name)
