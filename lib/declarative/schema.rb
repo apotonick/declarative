@@ -27,8 +27,13 @@ module Declarative
       super()
     end
 
-    # #add is DSL for Schema#[]=.
+    # #add is high-level behavior for Schema#[]=.
+    # reserved options:
+    #   :include_modules
+    #   :defaults_builder
     def add(name, options={}, &block)
+      options = options.delete(:_defaults).(name, options) if options[:_defaults] # FIXME: pipeline?
+
       base = nil
 
       if options.delete(:inherit) and parent_property = get(name)

@@ -1,22 +1,4 @@
 require "test_helper"
-require "declarative/schema"
-
-module Schema
-  module Inspect
-    def inspect
-      each { |n, dfn|
-        dfn.extend(::Inspect)
-        dfn[:nested].extend(::Inspect) if dfn[:nested]
-        dfn[:nested].extend(::Schema::Inspect) if dfn[:nested]
-      }
-      super
-    end
-
-    def get(*)
-      super.extend(::Inspect)
-    end
-  end
-end
 
 class SchemaTest < Minitest::Spec
   NestedBuilder = ->(options) {
@@ -94,6 +76,5 @@ class SchemaTest < Minitest::Spec
 
 
     schema.inspect.must_equal '{"artist"=>#<Declarative::Schema::Definition: @options={:cool=>true, :nested=>{"name"=>#<Declarative::Schema::Definition: @options={}, @name="name">, "band"=>#<Declarative::Schema::Definition: @options={:crazy=>nil, :nested=>{"location"=>#<Declarative::Schema::Definition: @options={}, @name="location">, "genre"=>#<Declarative::Schema::Definition: @options={}, @name="genre">}, :normal=>false}, @name="band">}, :uncool=>false}, @name="artist">, "id"=>#<Declarative::Schema::Definition: @options={:unique=>false, :value=>1}, @name="id">}'
-
   end
 end
