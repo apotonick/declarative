@@ -1,5 +1,5 @@
 module Declarative
-  class Schema < Hash
+  class Definitions < Hash
     class Definition
       def initialize(name, options={}, &block)
         @options = {}
@@ -27,10 +27,10 @@ module Declarative
       super()
     end
 
-    # #add is high-level behavior for Schema#[]=.
+    # #add is high-level behavior for Definitions#[]=.
     # reserved options:
     #   :include_modules
-    #   :defaults_builder
+    #   :_defaults
     def add(name, options={}, &block)
       options = options.delete(:_defaults).(name, options) if options[:_defaults] # FIXME: pipeline?
 

@@ -1,4 +1,5 @@
 require "declarative/version"
+require "declarative/definitions"
 
 module Declarative
   def self.included(includer)

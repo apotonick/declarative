@@ -1,5 +1,4 @@
 require "declarative"
-require "declarative/schema"
 require "minitest/autorun"
 require "pp"
 
@@ -15,13 +14,13 @@ module Inspect
 end
 
 
-module Schema
+module Definitions
   module Inspect
     def inspect
       each { |n, dfn|
         dfn.extend(::Inspect)
         dfn[:nested].extend(::Inspect) if dfn[:nested]
-        dfn[:nested].extend(::Schema::Inspect) if dfn[:nested]
+        dfn[:nested].extend(::Definitions::Inspect) if dfn[:nested]
       }
       super
     end

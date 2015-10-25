@@ -7,7 +7,7 @@ _DSL for nested schemas._
 Declarative allows _declaring_ nested schemas.
 
 ```ruby
-class Schema < Declarative::Schema
+class Definitions < Declarative::Definitions
   property :title
 
   property :songs do
