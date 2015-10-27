@@ -7,9 +7,14 @@ module Declarative
         }.merge(options)
 
         options[:build_nested] = NestedBuilder if block
+        options[:_defaults]    = defaults
         # TODO: test merge order. test :_composer.
 
         definitions.add(name, options, &block)
+      end
+
+      def defaults(options={}, &block)
+        (@defaults ||= Declarative::Defaults.new).merge!(options, &block)
       end
 
       def definitions
