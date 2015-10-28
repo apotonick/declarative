@@ -10,8 +10,8 @@ module Declarative
           _composer:    default_nested_class,
         }.merge(options)
 
-        options[:build_nested] = NestedBuilder if block
-        options[:_defaults]    = defaults
+        options[:_nested_builder] = NestedBuilder if block
+        options[:_defaults]       = defaults
         # TODO: test merge order. test :_composer.
 
         definitions.add(name, options, &block)

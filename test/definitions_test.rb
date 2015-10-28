@@ -1,22 +1,4 @@
 require "test_helper"
-require "declarative/schema"
-
-# module Definitions
-#   module Inspect
-#     def inspect
-#       each { |n, dfn|
-#         dfn.extend(::Inspect)
-#         dfn[:nested].extend(::Inspect) if dfn[:nested]
-#         dfn[:nested].extend(::Definitions::Inspect) if dfn[:nested]
-#       }
-#       super
-#     end
-
-#     def get(*)
-#       super.extend(::Inspect)
-#     end
-#   end
-# end
 
 class DefinitionsTest < Minitest::Spec
   NestedBuilder = ->(options) {
@@ -59,9 +41,9 @@ class DefinitionsTest < Minitest::Spec
   end
 
   it "#add with block" do
-    schema.add :artist, build_nested: NestedBuilder do
+    schema.add :artist, _nested_builder: NestedBuilder do
       add :name
-      add :band, build_nested: NestedBuilder do
+      add :band, _nested_builder: NestedBuilder do
         add :location
       end
     end
@@ -73,17 +55,17 @@ class DefinitionsTest < Minitest::Spec
 
 
   it "#add with inherit: true and block" do
-    schema.add :artist, cool: true, build_nested: NestedBuilder do
+    schema.add :artist, cool: true, _nested_builder: NestedBuilder do
       add :name
-      add :band, crazy: nil, build_nested: NestedBuilder do
+      add :band, crazy: nil, _nested_builder: NestedBuilder do
         add :location
       end
     end
 
     schema.add :id, unique: true, value: 1
 
-    schema.add :artist, uncool: false, build_nested: NestedBuilder, inherit: true do
-      add :band, normal: false, build_nested: NestedBuilder, inherit: true do
+    schema.add :artist, uncool: false, _nested_builder: NestedBuilder, inherit: true do
+      add :band, normal: false, _nested_builder: NestedBuilder, inherit: true do
         add :genre
       end
     end
