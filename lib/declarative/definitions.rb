@@ -54,9 +54,7 @@ module Declarative
 
   private
     def build_nested(base, includes, name, options, &block)
-      nested = options.delete(:_nested_builder).(base: base)
-      nested.module_eval &block # this is normally Twin, Decorator, Module.new, etc.
-      nested
+      nested = options.delete(:_nested_builder).(base: base, block: block)
 
       # Module.new do
       #   # include Representable

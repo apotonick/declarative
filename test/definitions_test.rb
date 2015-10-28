@@ -3,12 +3,8 @@ require "test_helper"
 class DefinitionsTest < Minitest::Spec
   NestedBuilder = ->(options) {
     base = options[:base] || Declarative::Definitions.new(Declarative::Definitions::Definition)
-    base.instance_eval do # this doesn't copy and writes to the original!
-      def module_eval(&block) # FIXME: that's because build_nested calls #module_eval.
-        instance_exec(&block)
-      end
-      self
-    end
+    base.instance_exec(&options[:block])
+    base
   }
 
   let (:schema) { Declarative::Definitions.new(Declarative::Definitions::Definition).extend(Definitions::Inspect) }
