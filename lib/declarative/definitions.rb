@@ -29,14 +29,14 @@ module Declarative
 
     # #add is high-level behavior for Definitions#[]=.
     # reserved options:
-    #   :include_modules
+    #   _features
     #   :_defaults
     #   :_composer # TODO: test me.
     def add(name, options={}, &block)
       options = options.delete(:_defaults).(name, options) if options[:_defaults] # FIXME: pipeline?
       base    = options.delete(:_composer)
       nested_builder = options.delete(:_nested_builder)
-      features = options.delete(:include_modules)
+      features = options.delete(:_features)
 
 
       if options.delete(:inherit) and parent_property = get(name)

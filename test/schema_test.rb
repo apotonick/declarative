@@ -40,7 +40,7 @@ class SchemaTest < Minitest::Spec
     Concrete.inspect
     pp Concrete.definitions.get(:artist).options
     # pp Concrete.definitions.get(:artist)[:nested].definitions.get(:band)[:nested].definitions
-    Concrete.inspect.gsub(/[ ]/, "").must_equal 'Schema: {
+    Concrete.inspect.gsub(/\s/, "").must_equal 'Schema: {
     "links"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"LINKS"}, @name="links">,
     "artist"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ARTIST", :cool=>true, :nested=>
       Schema: {
@@ -51,6 +51,6 @@ class SchemaTest < Minitest::Spec
             "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
             "location"=>#<Declarative::Definitions::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">,
      "id"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ID", :unique=>true, :value=>1}, @name="id">}'.
-     gsub("\n", "").gsub(/[ ]/, "")
+     gsub("\n", "").gsub(/\s/, "")
   end
 end
