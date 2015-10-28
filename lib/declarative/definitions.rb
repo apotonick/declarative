@@ -35,6 +35,9 @@ module Declarative
     def add(name, options={}, &block)
       options = options.delete(:_defaults).(name, options) if options[:_defaults] # FIXME: pipeline?
       base    = options.delete(:_composer)
+      nested_builder = options.delete(:_nested_builder)
+      features = options.delete(:include_modules)
+
 
       if options.delete(:inherit) and parent_property = get(name)
         base = parent_property[:nested]
@@ -42,7 +45,11 @@ module Declarative
       end
 
       if block
-        options[:nested] = build_nested(base, options[:include_modules], name, options, &block)
+        options[:nested] = build_nested(options.merge(
+          base: base, name: name,
+          _nested_builder: nested_builder,
+          block: block,
+          _features: features))
       end
 
       self[name.to_s] = @definition_class.new(name, options)
@@ -53,8 +60,8 @@ module Declarative
     end
 
   private
-    def build_nested(base, includes, name, options, &block)
-      nested = options.delete(:_nested_builder).(base: base, block: block)
+    def build_nested(options)
+      nested = options[:_nested_builder].(options)
 
       # Module.new do
       #   # include Representable

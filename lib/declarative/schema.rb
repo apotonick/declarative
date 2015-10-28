@@ -1,3 +1,5 @@
+require "declarative/defaults"
+
 module Declarative
   # Include this to maintain inheritable, nested schemas with ::defaults and
   # ::feature the way we have it in Representable, Reform, and Disposable.
@@ -47,7 +49,10 @@ module Declarative
 
 
     NestedBuilder = ->(options) {
-      base = Class.new(options[:base])
+      base = Class.new(options[:base]) do
+        feature *options[:_features]
+        class_eval(&options[:block])
+      end
     }
 
       # Module.new do

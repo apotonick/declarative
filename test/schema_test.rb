@@ -11,17 +11,18 @@ class SchemaTest < Minitest::Spec
     end
   end
 
-  module AddToOptions
+  module AddLinks
     def self.included(includer)
-      includer.definitions.each { |dfn| dfn.options[:added] = true }
+      includer.property(:links)
+      #includer.definitions.each { |name, dfn| dfn.options[:added] = true }
     end
   end
 
   class Concrete < Decorator
-    feature AddToOptions
     defaults render_nil: true do |name|
       { as: name.to_s.upcase }
     end
+    feature AddLinks
 
     property :artist, cool: true do
       property :name
@@ -37,7 +38,19 @@ class SchemaTest < Minitest::Spec
   it do
     Concrete.extend(Inspect::Schema)
     Concrete.inspect
-    pp Concrete.inspect
-    Concrete.inspect.must_equal 'Schema: {"artist"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ARTIST", :cool=>true, :nested=>Schema: {"name"=>#<Declarative::Definitions::Definition: @options={}, @name="name">, "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>Schema: {"location"=>#<Declarative::Definitions::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">, "id"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ID", :unique=>true, :value=>1}, @name="id">}'
+    pp Concrete.definitions.get(:artist).options
+    # pp Concrete.definitions.get(:artist)[:nested].definitions.get(:band)[:nested].definitions
+    Concrete.inspect.gsub(/[ ]/, "").must_equal 'Schema: {
+    "links"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"LINKS"}, @name="links">,
+    "artist"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ARTIST", :cool=>true, :nested=>
+      Schema: {
+        "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
+        "name"=>#<Declarative::Definitions::Definition: @options={}, @name="name">,
+        "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>
+          Schema: {
+            "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
+            "location"=>#<Declarative::Definitions::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">,
+     "id"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ID", :unique=>true, :value=>1}, @name="id">}'.
+     gsub("\n", "").gsub(/[ ]/, "")
   end
 end
