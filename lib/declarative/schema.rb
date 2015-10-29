@@ -28,10 +28,10 @@ module Declarative
       end
 
       def definitions
-        @definitions ||= Definitions.new(definitions_class)
+        @definitions ||= Definitions.new(definition_class)
       end
 
-      def definitions_class # TODO: test me.
+      def definition_class # TODO: test me.
         Definitions::Definition
       end
 
