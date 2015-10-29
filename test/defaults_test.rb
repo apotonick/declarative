@@ -16,7 +16,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"TITLE"}, @name="title">, "author_name"=>#<Declarative::Definitions::Definition: @options={}, @name="author_name">, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION"}, @name="description">}'
+      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"TITLE", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION", :name=>"description"}>}'
     end
   end
 
@@ -30,7 +30,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:as=>"TITLE"}, @name="title">, "author_name"=>#<Declarative::Definitions::Definition: @options={}, @name="author_name">, "description"=>#<Declarative::Definitions::Definition: @options={:as=>"DESCRIPTION"}, @name="description">}'
+      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:as=>"TITLE", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:as=>"DESCRIPTION", :name=>"description"}>}'
     end
   end
 
@@ -42,7 +42,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true}, @name="title">, "author_name"=>#<Declarative::Definitions::Definition: @options={}, @name="author_name">, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true}, @name="description">}'
+      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :name=>"description"}>}'
     end
   end
 
@@ -56,7 +56,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"Title"}, @name="title">, "author_name"=>#<Declarative::Definitions::Definition: @options={}, @name="author_name">, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION"}, @name="description">}'
+      schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"Title", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION", :name=>"description"}>}'
     end
   end
 end

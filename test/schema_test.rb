@@ -41,17 +41,15 @@ class SchemaTest < Minitest::Spec
     Concrete.inspect
     pp Concrete.definitions.get(:artist).options
     # pp Concrete.definitions.get(:artist)[:nested].definitions.get(:band)[:nested].definitions
-    Concrete.inspect.gsub(/\s/, "").must_equal 'Schema: {
-    "links"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"LINKS"}, @name="links">,
-    "artist"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ARTIST", :cool=>true, :nested=>
-      Schema: {
-        "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
-        "name"=>#<Declarative::Definitions::Definition: @options={}, @name="name">,
-        "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>
-          Schema: {
-            "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
-            "location"=>#<Declarative::Definitions::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">,
-     "id"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ID", :unique=>true, :value=>1}, @name="id">}'.
+    Concrete.inspect.gsub(/\s/, "").must_equal 'Schema:{
+    "links"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"LINKS",:name=>"links"}>,
+    "artist"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"ARTIST",:cool=>true,:nested=>Schema:{
+      "links"=>#<Declarative::Definitions::Definition:@options={:name=>"links"}>,
+      "name"=>#<Declarative::Definitions::Definition:@options={:name=>"name"}>,
+      "band"=>#<Declarative::Definitions::Definition:@options={:crazy=>nil,:nested=>Schema:{
+        "links"=>#<Declarative::Definitions::Definition:@options={:name=>"links"}>,
+        "location"=>#<Declarative::Definitions::Definition:@options={:name=>"location"}>},:name=>"band"}>},:name=>"artist"}>,
+    "id"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"ID",:unique=>true,:value=>1,:name=>"id"}>}'.
      gsub("\n", "").gsub(/\s/, "")
   end
 
@@ -77,18 +75,16 @@ class SchemaTest < Minitest::Spec
     InheritingConcrete.inspect
     pp InheritingConcrete.definitions.get(:artist).options
     # pp InheritingConcrete.definitions.get(:artist)[:nested].definitions.get(:band)[:nested].definitions
-    InheritingConcrete.inspect.gsub(/\s/, "").must_equal 'Schema: {
-    "links"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"LINKS"}, @name="links">,
-    "artist"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ARTIST", :cool=>true, :nested=>
-      Schema: {
-        "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
-        "name"=>#<Declarative::Definitions::Definition: @options={}, @name="name">,
-        "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>
-          Schema: {
-            "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
-            "location"=>#<Declarative::Definitions::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">,
-     "id"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ID", :unique=>true, :value=>1}, @name="id">,
-     "uuid"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"UUID"},@name="uuid">}
+    InheritingConcrete.inspect.gsub(/\s/, "").must_equal 'Schema:{
+    "links"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"LINKS",:name=>"links"}>,
+    "artist"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"ARTIST",:cool=>true,:nested=>Schema:{
+      "links"=>#<Declarative::Definitions::Definition:@options={:name=>"links"}>,
+      "name"=>#<Declarative::Definitions::Definition:@options={:name=>"name"}>,
+      "band"=>#<Declarative::Definitions::Definition:@options={:crazy=>nil,:nested=>Schema:{
+        "links"=>#<Declarative::Definitions::Definition:@options={:name=>"links"}>,
+        "location"=>#<Declarative::Definitions::Definition:@options={:name=>"location"}>},:name=>"band"}>},:name=>"artist"}>,
+    "id"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"ID",:unique=>true,:value=>1,:name=>"id"}>,
+    "uuid"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"UUID",:name=>"uuid"}>}
      '.
      gsub("\n", "").gsub(/\s/, "")
   end
