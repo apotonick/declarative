@@ -25,31 +25,9 @@ class DeclarativeTest < Minitest::Spec
     property :label
   end
 
-  it { RepresenterA.heritage.inspect.must_equal  "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@declarative_test.rb:12>}]}" }
-  it { DecoratorA.heritage.inspect.must_equal    "{:property=>[{:args=>[:id, {}], :block=>nil}, {:args=>[:artist, {}], :block=>#<Proc:@declarative_test.rb:12>}, {:args=>[:label, {}], :block=>nil}]}" }
+  it { RepresenterA.heritage.inspect.must_equal  "[{:method=>:property, :args=>[:id, {}], :block=>nil}, {:method=>:property, :args=>[:artist, {}], :block=>#<Proc:@declarative_test.rb:12>}]" }
+  it { DecoratorA.heritage.inspect.must_equal    "[{:method=>:property, :args=>[:id, {}], :block=>nil}, {:method=>:property, :args=>[:artist, {}], :block=>#<Proc:@declarative_test.rb:12>}, {:method=>:property, :args=>[:label, {}], :block=>nil}]" }
 
   # attrs[:property] when it wasn't initialized
 
-end
-
-
-require "declarative/property"
-class PropertyTest < Minitest::Spec
-  module RepresenterA
-    include Declarative
-    extend Declarative::Property
-
-    global_options = {decorator: true}
-
-    property :id,     global_options
-    property :artist, global_options
-
-    heritage[:property][1][:args][1][:decorator] = false # TODO: use the property Definition interface for this.
-  end
-
-  it { RepresenterA.heritage.inspect.must_equal "{:property=>[{:args=>[:id, {:decorator=>true}], :block=>nil}, {:args=>[:artist, {:decorator=>false}], :block=>nil}]}" }
-
-  it do
-    pp RepresenterA.representable_attrs
-  end
 end

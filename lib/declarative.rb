@@ -19,16 +19,14 @@ module Declarative
   end
 
 
-  class Heritage < Hash
+  class Heritage < Array
     def record(method, name, options=nil, &block)
-      self[method] ||= []
-      # FIXME: dup all additional args?
-      self[method] << {args: [name, options ? options.dup : nil].compact, block: block} # DISCUSS: options.dup.
+      self << {method: method, args: [name, options ? options.dup : nil].compact, block: block} # DISCUSS: options.dup.
     end
 
     def call(inheritor)
-      each do |method, calls|
-        calls.each { |cfg| inheritor.send(method, *cfg[:args], &cfg[:block]) }
+      each do |cfg|
+        inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
       end
     end
   end

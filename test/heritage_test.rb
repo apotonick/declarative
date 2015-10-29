@@ -13,5 +13,5 @@ class HeritageTest < Minitest::Spec
     heritage.record(:property, :id, {}, &Proc.new{}.extend(Inspect))
   end
 
-  it { RepresenterA.heritage.inspect.must_equal "{:representation_wrap==>[{:args=>[true], :block=>nil}], :property=>[{:args=>[:name, {:enable=>true}], :block=>nil}, {:args=>[:id, {}], :block=>#<Proc:@heritage_test.rb:13>}]}" }
+  it { RepresenterA.heritage.inspect.must_equal "[{:method=>:representation_wrap=, :args=>[true], :block=>nil}, {:method=>:property, :args=>[:name, {:enable=>true}], :block=>nil}, {:method=>:property, :args=>[:id, {}], :block=>#<Proc:@heritage_test.rb:13>}]" }
 end

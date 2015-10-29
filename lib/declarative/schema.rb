@@ -52,8 +52,6 @@ module Declarative
       # features are registered as defaults using _features, which in turn get translated to
       # Class.new... { feature mod } which makes it recursive in nested schemas.
       def feature(*mods)
-        heritage.record(:feature, *mods)
-
         mods.each do |mod|
           include mod
           register_feature(mod)
@@ -62,7 +60,7 @@ module Declarative
 
     private
       def register_feature(mod)
-        # heritage.record(:register_feature, mod) # this is only for inheritance between decorators and modules!!! ("horizontal and vertical")
+        heritage.record(:register_feature, mod) # this is only for inheritance between decorators and modules!!! ("horizontal and vertical")
 
         defaults[:_features] ||= []
         defaults[:_features] << mod
