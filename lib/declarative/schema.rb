@@ -8,23 +8,41 @@ module Declarative
   module Schema
     module DSL
       def property(name, options={}, &block)
+        heritage.record(:property, name, options, &block)
+
         options = {
           _composer:    default_nested_class,
         }.merge(options)
 
         options[:_nested_builder] = NestedBuilder if block
-        options[:_defaults]       = defaults
+        options[:_defaults]       = _defaults
         # TODO: test merge order. test :_composer.
 
         definitions.add(name, options, &block)
       end
 
       def defaults(options={}, &block)
-        (@defaults ||= Declarative::Defaults.new).merge!(options, &block)
+        _defaults.merge!(options, &block)
       end
 
       def definitions
         @definitions ||= Definitions.new(Definitions::Definition)
+      end
+
+    private
+      def _defaults
+        @defaults ||= Declarative::Defaults.new
+      end
+    end
+
+    module Heritage
+      def heritage
+        @heritage ||= ::Declarative::Heritage.new
+      end
+
+      def inherited(subclass) # DISCUSS: this could be in Decorator? but then we couldn't do B < A(include X) for non-decorators, right?
+        super
+        heritage.(subclass)
       end
     end
 
