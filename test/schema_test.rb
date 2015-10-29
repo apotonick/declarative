@@ -14,8 +14,8 @@ class SchemaTest < Minitest::Spec
 
   module AddLinks
     def self.included(includer)
+      super
       includer.property(:links)
-      #includer.definitions.each { |name, dfn| dfn.options[:added] = true }
     end
   end
 
@@ -87,7 +87,9 @@ class SchemaTest < Minitest::Spec
           Schema: {
             "links"=>#<Declarative::Definitions::Definition: @options={}, @name="links">,
             "location"=>#<Declarative::Definitions::Definition: @options={}, @name="location">}}, @name="band">}}, @name="artist">,
-     "id"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ID", :unique=>true, :value=>1}, @name="id">}'.
+     "id"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"ID", :unique=>true, :value=>1}, @name="id">,
+     "uuid"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"UUID"},@name="uuid">}
+     '.
      gsub("\n", "").gsub(/\s/, "")
   end
 end

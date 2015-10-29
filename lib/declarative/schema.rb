@@ -22,6 +22,8 @@ module Declarative
       end
 
       def defaults(options={}, &block)
+        heritage.record(:defaults, options, &block)
+
         _defaults.merge!(options, &block)
       end
 
@@ -50,6 +52,8 @@ module Declarative
       # features are registered as defaults using _features, which in turn get translated to
       # Class.new... { feature mod } which makes it recursive in nested schemas.
       def feature(*mods)
+        heritage.record(:feature, *mods)
+
         mods.each do |mod|
           include mod
           register_feature(mod)
