@@ -3,7 +3,7 @@ require "declarative/defaults"
 
 class DefaultsOptionsTest < Minitest::Spec
   let (:song) { Struct.new(:title, :author_name, :song_volume, :description).new("Revolution", "Some author", 20, nil) }
-  let (:schema) { Declarative::Definitions.new(Declarative::Definitions::Definition).extend Definitions::Inspect }
+  let (:schema) { Declarative::Definitions.new(Declarative::Definitions::Definition).extend Declarative::Definitions::Inspect }
   let (:defaults) { Declarative::Defaults.new }
 
   describe "hash options combined with dynamic options" do

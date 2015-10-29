@@ -7,7 +7,7 @@ class DefinitionsTest < Minitest::Spec
     base
   }
 
-  let (:schema) { Declarative::Definitions.new(Declarative::Definitions::Definition).extend(Definitions::Inspect) }
+  let (:schema) { Declarative::Definitions.new(Declarative::Definitions::Definition).extend(Declarative::Definitions::Inspect) }
 
   it "what" do
     # #add works with name

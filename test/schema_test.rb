@@ -37,7 +37,7 @@ class SchemaTest < Minitest::Spec
 
 
   it do
-    Concrete.extend(Inspect::Schema)
+    Concrete.extend(Declarative::Inspect::Schema)
     Concrete.inspect
     pp Concrete.definitions.get(:artist).options
     # pp Concrete.definitions.get(:artist)[:nested].definitions.get(:band)[:nested].definitions
@@ -71,7 +71,7 @@ class SchemaTest < Minitest::Spec
 
 
   it do
-    InheritingConcrete.extend(Inspect::Schema)
+    InheritingConcrete.extend(Declarative::Inspect::Schema)
     InheritingConcrete.inspect
     pp InheritingConcrete.definitions.get(:artist).options
     # pp InheritingConcrete.definitions.get(:artist)[:nested].definitions.get(:band)[:nested].definitions
