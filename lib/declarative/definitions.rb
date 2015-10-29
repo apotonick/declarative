@@ -28,7 +28,7 @@ module Declarative
       base    = options[:_base]
 
       if options.delete(:inherit) and parent_property = get(name)
-        base = parent_property[:nested]
+        base    = parent_property[:nested]
         options = parent_property.options.merge(options) # TODO: Definition#merge
       end
 
