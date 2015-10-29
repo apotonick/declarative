@@ -2,22 +2,13 @@ module Declarative
   class Definitions < Hash
     class Definition
       def initialize(name, options={}, &block)
-        @options = {}
+        @options = options.clone
         @name    = name.to_s
-        options  = options.clone
-
-        # # defaults:
-        # options[:parse_filter]  = Pipeline[*options[:parse_filter]]
-        # options[:render_filter] = Pipeline[*options[:render_filter]]
-
-        # setup!(options, &block)
-        @options = options
       end
 
       attr_reader :options # TODO: are we gonna keep this?
 
       def [](name)
-        # @runtime_options[name]
         @options[name]
       end
     end
@@ -46,7 +37,8 @@ module Declarative
 
       if block
         options[:nested] = build_nested(options.merge(
-          base: base, name: name,
+          base: base,
+          name: name,
           _nested_builder: nested_builder,
           block: block,
           _features: features))
