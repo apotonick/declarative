@@ -1,4 +1,5 @@
 require "declarative/defaults"
+require "declarative"
 
 module Declarative
   # Include this to maintain inheritable, nested schemas with ::defaults and
@@ -27,7 +28,11 @@ module Declarative
       end
 
       def definitions
-        @definitions ||= Definitions.new(Definitions::Definition)
+        @definitions ||= Definitions.new(definitions_class)
+      end
+
+      def definitions_class # TODO: test me.
+        Definitions::Definition
       end
 
     private

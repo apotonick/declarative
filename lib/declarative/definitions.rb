@@ -3,7 +3,7 @@ module Declarative
     class Definition
       def initialize(name, options={}, &block)
         @options = options.clone
-        @name    = name.to_s
+        @options[:name] = name.to_s
       end
 
       attr_reader :options # TODO: are we gonna keep this?
