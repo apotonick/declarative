@@ -24,11 +24,8 @@ module Declarative
     #   :_defaults
     #   :_base
     def add(name, options={}, &block)
-      options = options.delete(:_defaults).(name, options) if options[:_defaults] # FIXME: pipeline?
-      base    = options.delete(:_base)
-      nested_builder = options.delete(:_nested_builder)
-      features = options.delete(:_features)
-
+      options = options[:_defaults].(name, options) if options[:_defaults] # FIXME: pipeline?
+      base    = options[:_base]
 
       if options.delete(:inherit) and parent_property = get(name)
         base = parent_property[:nested]
@@ -36,13 +33,17 @@ module Declarative
       end
 
       if block
-        options[:nested] = build_nested(options.merge(
-          _base: base,
-          _name: name,
-          _nested_builder: nested_builder,
-          _block: block,
-          _features: features))
+        options[:nested] = build_nested(
+          options.merge(
+            _base: base,
+            _name: name,
+            _block: block,
+          )
+        )
       end
+
+      # clean up, we don't want that stored in the Definition instance.
+      [:_defaults, :_base, :_nested_builder, :_features].each { |key| options.delete(key) }
 
       self[name.to_s] = @definition_class.new(name, options)
     end
