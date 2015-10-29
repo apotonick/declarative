@@ -20,12 +20,12 @@ module Declarative
 
     # #add is high-level behavior for Definitions#[]=.
     # reserved options:
-    #   _features
+    #   :_features
     #   :_defaults
-    #   :_composer # TODO: test me.
+    #   :_base
     def add(name, options={}, &block)
       options = options.delete(:_defaults).(name, options) if options[:_defaults] # FIXME: pipeline?
-      base    = options.delete(:_composer)
+      base    = options.delete(:_base)
       nested_builder = options.delete(:_nested_builder)
       features = options.delete(:_features)
 

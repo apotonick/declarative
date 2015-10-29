@@ -11,12 +11,11 @@ module Declarative
         heritage.record(:property, name, options, &block)
 
         options = {
-          _composer:    default_nested_class,
+          _base:    default_nested_class,
         }.merge(options)
 
         options[:_nested_builder] = NestedBuilder if block
         options[:_defaults]       = _defaults
-        # TODO: test merge order. test :_composer.
 
         definitions.add(name, options, &block)
       end
