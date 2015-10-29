@@ -37,10 +37,10 @@ module Declarative
 
       if block
         options[:nested] = build_nested(options.merge(
-          base: base,
-          name: name,
+          _base: base,
+          _name: name,
           _nested_builder: nested_builder,
-          block: block,
+          _block: block,
           _features: features))
       end
 

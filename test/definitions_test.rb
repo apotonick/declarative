@@ -2,8 +2,8 @@ require "test_helper"
 
 class DefinitionsTest < Minitest::Spec
   NestedBuilder = ->(options) {
-    base = options[:base] || Declarative::Definitions.new(Declarative::Definitions::Definition)
-    base.instance_exec(&options[:block])
+    base = options[:_base] || Declarative::Definitions.new(Declarative::Definitions::Definition)
+    base.instance_exec(&options[:_block])
     base
   }
 
