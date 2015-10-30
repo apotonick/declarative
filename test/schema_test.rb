@@ -75,4 +75,19 @@ class SchemaTest < Minitest::Spec
      '.
      gsub("\n", "").gsub(/\s/, "")
   end
+
+
+  describe "::property still allows passing internal options" do
+    class ConcreteWithOptions < Decorator
+      defaults cool: true
+
+      # you can pass your own _nested_builder and it will still receive correct,
+      # defaultized options.
+      property :artist, _nested_builder: ->(options) { OpenStruct.new(cool: options[:cool]) }
+    end
+
+    it do
+      ConcreteWithOptions.extend(Declarative::Inspect::Schema).inspect.must_equal 'Schema: {"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>#<OpenStruct cool=true>, :name=>"artist"}>}'
+    end
+  end
 end

@@ -27,6 +27,7 @@ module Declarative
     #   :_features
     #   :_defaults
     #   :_base
+    #   :_nested_builder
     def add(name, options={}, &block)
       options = options[:_defaults].(name, options) if options[:_defaults] # FIXME: pipeline?
       base    = options[:_base]
@@ -36,7 +37,7 @@ module Declarative
         options = parent_property.options.merge(options) # TODO: Definition#merge
       end
 
-      if block
+      if options[:_nested_builder]
         options[:nested] = build_nested(
           options.merge(
             _base: base,
@@ -57,8 +58,9 @@ module Declarative
     end
 
   private
+    # Run builder to create nested schema (or twin, or representer, or whatever).
     def build_nested(options)
-      nested = options[:_nested_builder].(options)
+      options[:_nested_builder].(options)
     end
   end
 end

@@ -12,14 +12,12 @@ module Declarative
       def property(name, options={}, &block)
         heritage.record(:property, name, options, &block)
 
-        options = {
-          _base:    default_nested_class,
-        }.merge(options)
+        default_options = {}
+        default_options[:_base]           = default_nested_class
+        default_options[:_defaults]       = _defaults
+        default_options[:_nested_builder] = nested_builder if block
 
-        options[:_nested_builder] = nested_builder if block
-        options[:_defaults]       = _defaults
-
-        definitions.add(name, options, &block)
+        definitions.add(name, default_options.merge(options), &block)
       end
 
       def defaults(options={}, &block)
