@@ -1,5 +1,4 @@
 require "test_helper"
-require "declarative/schema"
 
 class SchemaTest < Minitest::Spec
   class Decorator

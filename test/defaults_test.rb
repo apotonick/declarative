@@ -1,5 +1,4 @@
 require "test_helper"
-require "declarative/defaults"
 
 class DefaultsOptionsTest < Minitest::Spec
   let (:song) { Struct.new(:title, :author_name, :song_volume, :description).new("Revolution", "Some author", 20, nil) }
