@@ -30,12 +30,6 @@ class DefinitionsTest < Minitest::Spec
     schema.inspect.must_equal '{"id"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :name=>"id"}>}'
   end
 
-  class Decorator
-    def self.add(*args, &block)
-      Declarative::Definitions.new(Declarative::Definitions::Definition)
-    end
-  end
-
   it "#add with block" do
     schema.add :artist, _nested_builder: NestedBuilder do
       add :name
