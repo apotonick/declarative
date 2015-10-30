@@ -59,14 +59,6 @@ module Declarative
   private
     def build_nested(options)
       nested = options[:_nested_builder].(options)
-
-      # Module.new do
-      #   # include Representable
-      #   # feature *features # Representable::JSON or similar.
-      #   include base if base # base when :inherit, or in decorator.
-
-      #   module_eval &block
-      # end
     end
   end
 end

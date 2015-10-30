@@ -15,7 +15,7 @@ module Declarative
           _base:    default_nested_class,
         }.merge(options)
 
-        options[:_nested_builder] = NestedBuilder if block
+        options[:_nested_builder] = nested_builder if block
         options[:_defaults]       = _defaults
 
         definitions.add(name, options, &block)
@@ -38,6 +38,10 @@ module Declarative
     private
       def _defaults
         @defaults ||= Declarative::Defaults.new
+      end
+
+      def nested_builder
+        NestedBuilder
       end
     end
 
