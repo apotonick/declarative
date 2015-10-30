@@ -43,6 +43,17 @@ class DefinitionsTest < Minitest::Spec
     pp schema
   end
 
+  it "#add with :nested instead of block" do
+    nested_schema = Declarative::Definitions.new(Declarative::Definitions::Definition)
+    nested_schema.extend(Declarative::Definitions::Inspect)
+
+    nested_schema.add :name
+
+    schema.add :artist, nested: nested_schema
+
+    schema.inspect.must_equal '{"artist"=>#<Declarative::Definitions::Definition: @options={:nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>}, :name=>"artist"}>}'
+  end
+
 
   it "#add with inherit: true and block" do
     schema.add :artist, cool: true, _nested_builder: NestedBuilder do
