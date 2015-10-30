@@ -40,7 +40,14 @@ module Declarative
       end
 
       def nested_builder
-        NestedBuilder
+        NestedBuilder # default implementation.
+      end
+
+      NestedBuilder = ->(options) do
+        base = Class.new(options[:_base]) do
+          feature *options[:_features]
+          class_eval(&options[:_block])
+        end
       end
     end
 
@@ -71,14 +78,6 @@ module Declarative
 
         defaults[:_features] ||= []
         defaults[:_features] << mod
-      end
-    end
-
-
-    NestedBuilder = ->(options) do
-      base = Class.new(options[:_base]) do
-        feature *options[:_features]
-        class_eval(&options[:_block])
       end
     end
   end
