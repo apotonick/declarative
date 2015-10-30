@@ -1,11 +1,9 @@
 require "declarative/version"
 require "declarative/definitions"
+require "declarative/defaults"
+require "declarative/schema"
 
 module Declarative
-  def self.included(includer)
-    includer.extend DSL, Inheritance
-  end
-
   module DSL
     def heritage
       @heritage ||= Heritage.new

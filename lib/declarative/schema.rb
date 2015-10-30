@@ -1,6 +1,3 @@
-require "declarative/defaults"
-require "declarative"
-
 module Declarative
   # Include this to maintain inheritable, nested schemas with ::defaults and
   # ::feature the way we have it in Representable, Reform, and Disposable.
@@ -76,19 +73,11 @@ module Declarative
     end
 
 
-    NestedBuilder = ->(options) {
+    NestedBuilder = ->(options) do
       base = Class.new(options[:_base]) do
         feature *options[:_features]
         class_eval(&options[:_block])
       end
-    }
-
-      # Module.new do
-      #   # include Representable
-      #   # feature *features # Representable::JSON or similar.
-      #   include base if base # base when :inherit, or in decorator.
-
-      #   module_eval &block
-      # end
+    end
   end
 end
