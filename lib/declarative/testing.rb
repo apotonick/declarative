@@ -6,7 +6,7 @@ module Declarative
         elements = string.split("/")
         string = "#{elements.first}#{elements.last}"
       end
-      string.sub(/0x\w+/, "")
+      string.gsub(/0x\w+/, "")
     end
 
     module Schema
