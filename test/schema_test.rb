@@ -54,18 +54,6 @@ class SchemaTest < Minitest::Spec
   end
 
   class InheritingConcrete < Concrete
-    # defaults render_nil: true do |name|
-    #   { as: name.to_s.upcase }
-    # end
-    # feature AddLinks
-
-    # property :artist, cool: true do
-    #   property :name
-    #   property :band, crazy: nil do
-    #     property :location
-    #   end
-    # end
-
     property :uuid
   end
 
