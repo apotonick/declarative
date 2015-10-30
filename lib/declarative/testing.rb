@@ -19,7 +19,7 @@ module Declarative
 
   module Definitions::Inspect
     def inspect
-      each { |n, dfn|
+      each { |dfn|
         dfn.extend(Declarative::Inspect)
 
         if dfn[:nested] && dfn[:nested].is_a?(Declarative::Schema::DSL)

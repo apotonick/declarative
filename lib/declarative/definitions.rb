@@ -18,6 +18,10 @@ module Declarative
       super()
     end
 
+    def each(&block) # TODO : test me!
+      values.each(&block)
+    end
+
     # #add is high-level behavior for Definitions#[]=.
     # reserved options:
     #   :_features
