@@ -1,3 +1,7 @@
+require "declarative"
+require "declarative/definitions"
+require "declarative/defaults"
+
 module Declarative
   # Include this to maintain inheritable, nested schemas with ::defaults and
   # ::feature the way we have it in Representable, Reform, and Disposable.
