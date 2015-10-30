@@ -2,24 +2,11 @@
 
 _DSL for nested schemas._
 
+[![Gem Version](https://badge.fury.io/rb/declarative.svg)](http://badge.fury.io/rb/declarative)
+
 # Overview
 
 Declarative allows _declaring_ nested schemas.
-
-```ruby
-class Definitions < Declarative::Definitions
-  property :title
-
-  property :songs do
-    property :id
-    property :name
-  end
-end
-```
-
-It also lets you define schemas in modules.
-
-Declarative is the generic schema engine in Representable, Disposable, Trailblazer, and many more gems.
 
 ## Installation
 
