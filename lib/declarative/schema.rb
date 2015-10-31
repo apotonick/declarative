@@ -7,6 +7,8 @@ module Declarative
   # ::feature the way we have it in Representable, Reform, and Disposable.
   #
   # The schema with its defnitions will be kept in ::definitions.
+  #
+  # Requirements to includer: ::default_nested_class, override building with ::nested_builder.
   module Schema
     module DSL
       def property(name, options={}, &block)
