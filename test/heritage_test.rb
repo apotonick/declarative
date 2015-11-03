@@ -4,7 +4,7 @@ class HeritageTest < Minitest::Spec
   P = Proc.new{}.extend(Declarative::Inspect)
   # #record
   module RepresenterA
-    extend Declarative::DSL
+    extend Declarative::Heritage::DSL
 
     # one arg.
     heritage.record(:representation_wrap=, true)
@@ -19,7 +19,7 @@ class HeritageTest < Minitest::Spec
 
   describe "dup of arguments" do
     module B
-      extend Declarative::DSL
+      extend Declarative::Heritage::DSL
 
       options = {render: true, nested: {render: false}}
 

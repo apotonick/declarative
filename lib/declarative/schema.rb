@@ -10,6 +10,13 @@ module Declarative
   #
   # Requirements to includer: ::default_nested_class, override building with ::nested_builder.
   module Schema
+    def self.extended(extender)
+      extender.extend DSL
+      extender.extend Feature
+      extender.extend Heritage::DSL # ::heritage
+      extender.extend Heritage::Inherited # ::included
+    end
+
     module DSL
       def property(name, options={}, &block)
         heritage.record(:property, name, options, &block)
@@ -50,17 +57,6 @@ module Declarative
           feature *options[:_features]
           class_eval(&options[:_block])
         end
-      end
-    end
-
-    module Heritage
-      def heritage
-        @heritage ||= ::Declarative::Heritage.new
-      end
-
-      def inherited(subclass) # DISCUSS: this could be in Decorator? but then we couldn't do B < A(include X) for non-decorators, right?
-        super
-        heritage.(subclass)
       end
     end
 

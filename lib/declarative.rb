@@ -4,20 +4,28 @@ require "declarative/defaults"
 require "declarative/schema"
 
 module Declarative
-  module DSL
-    def heritage
-      @heritage ||= Heritage.new
-    end
-  end
-
-  module Inheritance
-    def included(includer)
-      heritage.(includer)
-    end
-  end
-
-
   class Heritage < Array
+    module DSL
+      def heritage
+        @heritage ||= Heritage.new
+      end
+    end
+
+    module Inherited
+      def inherited(subclass)
+        super
+        heritage.(subclass)
+      end
+    end
+
+    module Included
+      def included(mod)
+        super
+        heritage.(mod)
+      end
+    end
+
+
     def record(method, *args, &block)
       self << {method: method, args: DeepDup.(args), block: block} # DISCUSS: options.dup.
     end

@@ -2,9 +2,7 @@ require "test_helper"
 
 class SchemaTest < Minitest::Spec
   class Decorator
-    extend Declarative::Schema::DSL
-    extend Declarative::Schema::Feature # TODO: make automatic
-    extend Declarative::Schema::Heritage # TODO: make automatic
+    extend Declarative::Schema
 
     def self.default_nested_class
       Decorator
