@@ -77,6 +77,26 @@ class DefinitionsTest < Minitest::Spec
 
 
     schema.inspect.must_equal '{"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>, "genre"=>#<Declarative::Definitions::Definition: @options={:name=>"genre"}>}, :name=>"band", :normal=>false}>}, :name=>"artist", :uncool=>false}>, "id"=>#<Declarative::Definitions::Definition: @options={:unique=>false, :value=>1, :name=>"id"}>}'
+  end
 
+  it "#add with nested options followed by inherit: true" do
+    schema.add :id, deserializer: options = { render: false }
+    schema.add :id, inherit: true
+
+    schema.get(:id)[:deserializer][:parse] = true
+
+    options.must_equal(render: false)
+  end
+end
+
+
+class DefinitionTest < Minitest::Spec
+  let (:definition) { Declarative::Definitions::Definition.new(:name) }
+
+  it "#merge does return deep copy" do
+    options = { render: false }
+    merged = definition.merge(options)
+    definition.merge!(render: true)
+    merged.must_equal(:name=>"name", render: false)
   end
 end

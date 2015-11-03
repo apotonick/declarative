@@ -2,14 +2,21 @@ module Declarative
   class Definitions < Hash
     class Definition
       def initialize(name, options={}, &block)
-        @options = options.clone
+        @options = options.dup
         @options[:name] = name.to_s
       end
 
-      attr_reader :options # TODO: are we gonna keep this?
-
       def [](name)
         @options[name]
+      end
+
+      def merge!(hash) # TODO: this should return a new Definition instance.
+        @options.merge!(hash)
+        self
+      end
+
+      def merge(hash) # TODO: should be called #copy.
+        DeepDup.(@options).merge(hash)
       end
     end
 
@@ -34,7 +41,7 @@ module Declarative
 
       if options.delete(:inherit) and parent_property = get(name)
         base    = parent_property[:nested]
-        options = parent_property.options.merge(options) # TODO: Definition#merge
+        options = parent_property.merge(options) # TODO: Definition#merge
       end
 
       if options[:_nested_builder]

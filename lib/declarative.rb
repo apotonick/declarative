@@ -18,14 +18,27 @@ module Declarative
 
 
   class Heritage < Array
-    def record(method, name, options=nil, &block)
-      self << {method: method, args: [name, options ? options.dup : nil].compact, block: block} # DISCUSS: options.dup.
+    def record(method, *args, &block)
+      self << {method: method, args: DeepDup.(args), block: block} # DISCUSS: options.dup.
     end
 
     def call(inheritor)
       each do |cfg|
         inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
       end
+    end
+  end
+
+  class DeepDup
+    def self.call(args)
+      return Array[*dup_items(args)] if args.is_a?(Array)
+      return Hash[dup_items(args)] if args.is_a?(Hash)
+      args
+    end
+
+  private
+    def self.dup_items(arr)
+      arr.to_a.collect { |v| call(v) }
     end
   end
 end
