@@ -11,9 +11,9 @@ module Declarative
   # Requirements to includer: ::default_nested_class, override building with ::nested_builder.
   module Schema
     def self.extended(extender)
-      extender.extend DSL
-      extender.extend Feature
-      extender.extend Heritage::DSL # ::heritage
+      extender.extend DSL                 # ::property
+      extender.extend Feature             # ::feature
+      extender.extend Heritage::DSL       # ::heritage
       extender.extend Heritage::Inherited # ::included
     end
 

@@ -70,7 +70,7 @@ Override `::nested_builder` to define your own way of doing that.
 
 ```ruby
 class Model
-  include Declarative::Schema
+  extend Declarative::Schema
 
   def self.default_nested_class
     Model
@@ -92,7 +92,7 @@ You can automatically include modules into all nested schemas by using `::featur
 
 ```ruby
 class Model
-  include Declarative::Schema
+  extend Declarative::Schema
   feature Bla
 ```
 
@@ -100,7 +100,7 @@ class Model
 
 ```ruby
 class Model
-  include Declarative::Schema
+  extend Declarative::Schema
   defaults visible: true
 ```
 
