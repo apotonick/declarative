@@ -21,12 +21,7 @@ module Declarative
       def property(name, options={}, &block)
         heritage.record(:property, name, options, &block)
 
-        default_options = {}
-        default_options[:_base]           = default_nested_class
-        default_options[:_defaults]       = _defaults
-        default_options[:_nested_builder] = nested_builder if block
-
-        definitions.add(name, default_options.merge(options), &block)
+        build_definition(name, options, &block)
       end
 
       def defaults(options={}, &block)
@@ -44,6 +39,15 @@ module Declarative
       end
 
     private
+      def build_definition(name, options={}, &block)
+        default_options = {}
+        default_options[:_base]           = default_nested_class
+        default_options[:_defaults]       = _defaults
+        default_options[:_nested_builder] = nested_builder if block
+
+        definitions.add(name, default_options.merge(options), &block)
+      end
+
       def _defaults
         @defaults ||= Declarative::Defaults.new
       end

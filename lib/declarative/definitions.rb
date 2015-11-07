@@ -20,6 +20,7 @@ module Declarative
       end
     end
 
+
     def initialize(definition_class)
       @definition_class = definition_class
       super()
