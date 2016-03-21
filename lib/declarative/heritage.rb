@@ -6,6 +6,7 @@ module Declarative
     end
 
     # Replay the recorded assignments on inheritor.
+    # Accepts a block that will allow processing the arguments for every recorded statement.
     def call(inheritor, &block)
       each { |cfg| call!(inheritor, cfg, &block) }
     end

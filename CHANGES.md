@@ -1,3 +1,7 @@
+# 0.0.6
+
+* `Heritage#call` now accepts a block that allows processing the arguments for every recorded statement before replaying them. This provides a hook to inject or change parameters, e.g. to mark a replay as an inheritance.
+
 # 0.0.5
 
 * Introduce `Schema::build_definition` as a central entry point for building `Definition` without any heritage involved.
