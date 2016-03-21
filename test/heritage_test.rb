@@ -32,35 +32,18 @@ class HeritageTest < Minitest::Spec
     it { B.heritage.inspect.must_equal "[{:method=>:property, :args=>[:name, {:render=>true, :nested=>{:render=>false}}], :block=>#<Proc:@heritage_test.rb:4>}]" }
   end
 
+  describe "#call with block" do
+    let (:heritage) { Declarative::Heritage.new.record(:property, :id, {}) }
 
-  class Song
-    class Heritage < Declarative::Heritage
-      def call!(inheritor, cfg)
-        cfg[:args].last.merge!(_inherited: true)
-
-        inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
+    class CallWithBlock
+      def self.property(name, options)
+        @args = [name, options]
       end
     end
 
-    extend Declarative::Heritage::Inherited
-
-    def self.heritage
-      @heritage ||= Heritage.new
-    end
-
-    heritage.record(:property, :id, {})
-
-    def self.property(name, options)
-      @args = [name, options]
-    end
-  end
-
-  class Hit < Song # calls Song::property.
-  end
-
-  describe "overriding #call! allows to inject additional parameters" do
     it do
-      Hit.instance_variable_get(:@args).must_equal [:id, {:_inherited=>true}]
+      heritage.(CallWithBlock) { |cfg| cfg[:args].last.merge!(_inherited: true) }
+      CallWithBlock.instance_variable_get(:@args).must_equal [:id, {:_inherited=>true}]
     end
   end
 end

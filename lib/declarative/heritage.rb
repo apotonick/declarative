@@ -6,11 +6,13 @@ module Declarative
     end
 
     # Replay the recorded assignments on inheritor.
-    def call(inheritor)
-      each { |cfg| call!(inheritor, cfg) }
+    def call(inheritor, &block)
+      each { |cfg| call!(inheritor, cfg, &block) }
     end
 
     private def call!(inheritor, cfg)
+      yield cfg if block_given? # allow messing around with recorded arguments.
+
       inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
     end
 
