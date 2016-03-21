@@ -1,15 +1,18 @@
 module Declarative
   class Heritage < Array
+    # Record inheritable assignments for replay in an inheriting class.
     def record(method, *args, &block)
       self << {method: method, args: DeepDup.(args), block: block} # DISCUSS: options.dup.
     end
 
+    # Replay the recorded assignments on inheritor.
     def call(inheritor)
-      each do |cfg|
-        inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
-      end
+      each { |cfg| call!(inheritor, cfg) }
     end
 
+    private def call!(inheritor, cfg)
+      inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
+    end
 
     module DSL
       def heritage
