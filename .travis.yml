@@ -6,3 +6,5 @@ rvm:
   - 1.9.3
 gemfile:
   - Gemfile
+before_install:
+  - gem install bundler
