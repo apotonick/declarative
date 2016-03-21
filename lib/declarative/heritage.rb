@@ -10,7 +10,8 @@ module Declarative
       each { |cfg| call!(inheritor, cfg, &block) }
     end
 
-    private def call!(inheritor, cfg)
+  private
+    def call!(inheritor, cfg)
       yield cfg if block_given? # allow messing around with recorded arguments.
 
       inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
