@@ -1,3 +1,7 @@
+# 0.0.7
+
+* Simplify `Defaults` and remove a warning in Ruby 2.2.3.
+
 # 0.0.6
 
 * `Heritage#call` now accepts a block that allows processing the arguments for every recorded statement before replaying them. This provides a hook to inject or change parameters, e.g. to mark a replay as an inheritance.
