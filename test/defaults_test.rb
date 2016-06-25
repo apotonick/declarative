@@ -58,4 +58,31 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.inspect.must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"Title", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION", :name=>"description"}>}'
     end
   end
+
+
+  describe "multiple Defaults#merge!" do
+    it "merges arrays automatically" do
+      defaults.merge!(a: 1, b: 2)
+      defaults.merge!(      b: 3, _features: ["A"])
+      defaults.merge!(            _features: ["B", "C"])
+      defaults.(nil, {}).inspect.must_equal "{:a=>1, :b=>3, :_features=>[\"A\", \"B\", \"C\"]}"
+    end
+
+    it "what" do
+      defaults.merge!(_features: ["A"]) do |name, options|
+        { _features: ["B", "D"] }
+      end
+
+      defaults.(nil, {}).inspect.must_equal "{:_features=>[\"A\", \"B\", \"D\"]}"
+    end
+  end
+end
+
+class DefaultsMergeTest < Minitest::Spec
+  it do
+    a = { a: "a", features: ["b"] }
+    b = { a: "a", features: ["c", "d"], b: "b" }
+
+    Declarative::Defaults::Merge.(a, b).must_equal({:a=>"a", :features=>["b", "c", "d"], :b=>"b"})
+  end
 end

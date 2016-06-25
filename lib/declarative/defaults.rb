@@ -7,20 +7,38 @@ module Declarative
       @dynamic_options = ->(*) { Hash.new }
     end
 
-    def merge!(hash, &block)
-      @static_options.merge!(hash) if hash.any?
+    # Set default values. Usually called in Schema::defaults.
+    # This can be called multiple times and will "deep-merge" arrays, e.g. `_features: []`.
+    def merge!(hash={}, &block)
+      @static_options = Merge.(@static_options, hash)
+
       @dynamic_options = block if block_given?
       self
     end
 
-    extend Uber::Delegates
-    delegates :@static_options, :[], :[]= # mutuable API!
-
-    # TODO: allow to receive rest of options/block in dynamic block. or, rather, test it as it was already implemented.
+    # Evaluate defaults and merge given_options into them.
     def call(name, given_options)
-      options = @static_options
-      options = options.merge(@dynamic_options.(name, given_options))
+      # TODO: allow to receive rest of options/block in dynamic block. or, rather, test it as it was already implemented.
+      evaluated_options = @dynamic_options.(name, given_options)
+
+      options = Merge.(@static_options, evaluated_options)
       options = options.merge(given_options)
+    end
+
+    # Private! Don't use this anywhere.
+    # Merges two hashes and joins same-named arrays. This is often needed
+    # when dealing with defaults.
+    class Merge
+      def self.call(a, b)
+        a = a.dup
+        b.each do |k, v|
+          a[k] = v and next unless a.has_key?(k)
+          a[k] = v and next unless a[k].is_a?(Array)
+          a[k] = a[k] += v # only for arrays.
+        end
+
+        a
+      end
     end
   end
 end
