@@ -79,8 +79,6 @@ module Declarative
         heritage.record(:register_feature, mod) # this is only for inheritance between decorators and modules!!! ("horizontal and vertical")
 
         defaults.merge!(_features: [mod])
-        # defaults[:_features] ||= []
-        # defaults[:_features] << mod
       end
     end
   end
