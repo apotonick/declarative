@@ -24,7 +24,7 @@ Normally, an abstract base class will define essential configuration.
 
 ```ruby
 class Model
-  include Declarative::Schema
+ extend Declarative::Schema
 
   def self.default_nested_class
     Model
