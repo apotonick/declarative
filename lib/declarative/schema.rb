@@ -1,6 +1,6 @@
-require "declarative"
 require "declarative/definitions"
 require "declarative/defaults"
+require "declarative/heritage"
 
 module Declarative
   # Include this to maintain inheritable, nested schemas with ::defaults and

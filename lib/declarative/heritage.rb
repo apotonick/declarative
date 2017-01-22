@@ -1,3 +1,5 @@
+require "declarative/deep_dup"
+
 module Declarative
   class Heritage < Array
     # Record inheritable assignments for replay in an inheriting class.
