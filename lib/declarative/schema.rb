@@ -58,7 +58,7 @@ module Declarative
 
       NestedBuilder = ->(options) do
         base = Class.new(options[:_base]) do
-          feature *options[:_features]
+          feature(*options[:_features])
           class_eval(&options[:_block])
         end
       end
