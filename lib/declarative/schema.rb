@@ -1,6 +1,6 @@
-require "declarative"
 require "declarative/definitions"
 require "declarative/defaults"
+require "declarative/heritage"
 
 module Declarative
   # Include this to maintain inheritable, nested schemas with ::defaults and
@@ -57,8 +57,8 @@ module Declarative
       end
 
       NestedBuilder = ->(options) do
-        base = Class.new(options[:_base]) do
-          feature *options[:_features]
+        Class.new(options[:_base]) do # base
+          feature(*options[:_features])
           class_eval(&options[:_block])
         end
       end

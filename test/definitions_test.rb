@@ -20,8 +20,6 @@ class DefinitionsTest < Minitest::Spec
     # #add with name and options
     schema.add(:id, unique: true)
     schema.get(:id).inspect.must_equal '#<Declarative::Definitions::Definition: @options={:unique=>true, :name=>"id"}>'
-
-    pp schema
   end
 
   it "overwrites old when called twice" do
@@ -39,8 +37,6 @@ class DefinitionsTest < Minitest::Spec
     end
 
     schema.inspect.must_equal '{"artist"=>#<Declarative::Definitions::Definition: @options={:nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>}, :name=>"band"}>}, :name=>"artist"}>}'
-
-    pp schema
   end
 
   it "#add with :nested instead of block" do
@@ -72,9 +68,6 @@ class DefinitionsTest < Minitest::Spec
     end
 
     schema.add :id, unique: false, inherit: true
-
-    pp schema
-
 
     schema.inspect.must_equal '{"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>, "genre"=>#<Declarative::Definitions::Definition: @options={:name=>"genre"}>}, :name=>"band", :normal=>false}>}, :name=>"artist", :uncool=>false}>, "id"=>#<Declarative::Definitions::Definition: @options={:unique=>false, :value=>1, :name=>"id"}>}'
   end

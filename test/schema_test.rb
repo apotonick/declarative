@@ -56,7 +56,6 @@ class SchemaTest < Minitest::Spec
   it do
     InheritingConcrete.extend(Declarative::Inspect::Schema)
     InheritingConcrete.inspect
-    # pp InheritingConcrete.definitions.get(:artist)[:nested].definitions.get(:band)[:nested].definitions
     InheritingConcrete.inspect.gsub(/\s/, "").must_equal 'Schema:{
     "links"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"LINKS",:name=>"links"}>,
     "artist"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"ARTIST",:cool=>true,:nested=>Schema:{
