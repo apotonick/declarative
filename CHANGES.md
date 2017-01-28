@@ -1,3 +1,7 @@
+# 0.0.9
+
+* Removing `uber` dependency.
+
 # 0.0.8
 
 * When calling `Schema#defaults` (or `Defaults#merge!`) multiple times, same-named arrays will be joined instead of overridden. This fixes a common problem when merging different default settings.
