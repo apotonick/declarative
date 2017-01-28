@@ -1,5 +1,3 @@
-require "uber/delegates"
-
 module Declarative
   class Defaults
     def initialize
