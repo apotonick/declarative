@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["apotonick@gmail.com"]
   spec.summary       = %q{DSL for nested schemas.}
   spec.description   = %q{DSL for nested generic schemas with inheritance and refining.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/apotonick/declarative"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
