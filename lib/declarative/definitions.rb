@@ -1,5 +1,5 @@
 module Declarative
-  class Definitions < Hash
+  class Definitions < ::Hash
     class Definition
       def initialize(name, options={}, &block)
         @options = options.dup

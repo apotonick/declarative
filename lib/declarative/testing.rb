@@ -1,4 +1,14 @@
 module Declarative
+  def self.Inspect(obj)
+    string = obj.inspect
+
+    if obj.is_a?(Proc)
+      elements = string.split("/")
+      string = "#{elements.first}#{elements.last}"
+    end
+    string.gsub(/0x\w+/, "")
+  end
+
   module Inspect
     def inspect
       string = super

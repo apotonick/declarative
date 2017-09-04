@@ -2,7 +2,7 @@ module Declarative
   class DeepDup
     def self.call(args)
       return Array[*dup_items(args)] if args.is_a?(Array)
-      return Hash[dup_items(args)] if args.is_a?(Hash)
+      return ::Hash[dup_items(args)] if args.is_a?(::Hash)
       args
     end
 

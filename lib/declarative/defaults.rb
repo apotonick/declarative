@@ -2,7 +2,7 @@ module Declarative
   class Defaults
     def initialize
       @static_options  = {}
-      @dynamic_options = ->(*) { Hash.new }
+      @dynamic_options = ->(*) { ::Hash.new }
     end
 
     # Set default values. Usually called in Schema::defaults.
