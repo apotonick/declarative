@@ -7,6 +7,7 @@ class DSLOptionsTest < Minitest::Spec
     Declarative::Inspect(defaults).must_equal %{#<Declarative::Variables: @original={:id=>1, :connections=>{:first=>1, :second=>2}, :list=>[3]}>}
   end
 
+  #- Merge
   it "merges Merge over original" do
     options = defaults.merge(
       connections: Declarative::Variables::Merge( second: 3, third: 4 )
@@ -19,6 +20,14 @@ class DSLOptionsTest < Minitest::Spec
     options = defaults.merge( connections: { second: 3, third: 4 } )
 
     options.must_equal( { id: 1, connections: { second: 3, third: 4 }, :list=>[3] } )
+  end
+
+  it "creates new hash if original not existent" do
+    options = defaults.merge(
+      bla: Declarative::Variables::Merge( second: 3, third: 4 )
+    )
+
+    options.must_equal( {:id=>1, :connections=>{:first=>1, :second=>2}, :list=>[3], :bla=>{:second=>3, :third=>4}} )
   end
 
   #- Append
@@ -36,15 +45,5 @@ class DSLOptionsTest < Minitest::Spec
     )
 
     options.must_equal( { id: 1, connections: { first: 1, second: 2 }, :list=>[3], :another_list=>[3, 4, 5] } )
-  end
-
-  it "breaks when Merge can't find source to merge into" do
-    assert_raises do
-      options = defaults.merge(
-        ___connections: Declarative::Variables::Merge( second: 3, third: 4 )
-      )
-    end
-
-    # options.keys.must_equal([:id, :connections, :list, :___connections])
   end
 end

@@ -25,7 +25,7 @@ module Declarative
 
     def self.Merge(merged_hash)
       ->(original) do
-        original.merge( merged_hash )
+        (original || {}).merge( merged_hash )
       end
     end # Merge()
 
