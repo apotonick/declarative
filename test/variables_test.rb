@@ -16,6 +16,14 @@ class DSLOptionsTest < Minitest::Spec
     options.must_equal( { id: 1, connections: { first: 1, second: 3, third: 4 }, :list=>[3] } )
   end
 
+  it "accepts Procs" do
+    options = defaults.merge(
+      connections: proc = ->(*) { raise }
+    )
+
+    options.must_equal( { id: 1, connections: proc, :list=>[3] } )
+  end
+
   it "overrides original without Merge" do
     options = defaults.merge( connections: { second: 3, third: 4 } )
 
