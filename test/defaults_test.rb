@@ -77,12 +77,3 @@ class DefaultsOptionsTest < Minitest::Spec
     end
   end
 end
-
-class DefaultsMergeTest < Minitest::Spec
-  it do
-    a = { a: "a", features: ["b"] }
-    b = { a: "a", features: ["c", "d"], b: "b" }
-
-    Declarative::Defaults::Merge.(a, b).must_equal({:a=>"a", :features=>["b", "c", "d"], :b=>"b"})
-  end
-end
