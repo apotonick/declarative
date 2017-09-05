@@ -10,25 +10,27 @@ module Declarative
     end
 
     def merge(hash)
-      original = @original.merge({}) # todo: use our DeepDup.
+      original = @original.merge({}) # todo: use our DeepDup. # TODO: or how could we provide immutability?
 
       hash.each do |k, v| # fixme: REDUNDANT WITH Defaults.Merge
-        original[k] = v and next unless original.has_key?(k)
-        original[k] = v.( original[k] ) and next if v.is_a?(Proc)
-
-
-        original[k] = v and next unless original[k].is_a?(Array)
-        original[k] = original[k] += v # only for arrays.
+        if v.is_a?(Proc)
+          original[k] = v.( original[k] )
+        else
+          original[k] = v
+        end
       end
 
       original
     end
 
-    def self.Merge(new_hash)
+    def self.Merge(merged_hash)
       ->(original) do
-        original.merge( new_hash )
+        original.merge( merged_hash )
       end
     end # Merge()
 
+    def self.Append(appended_array)
+      ->(original) { original += appended_array }
+    end
   end
 end
