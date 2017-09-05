@@ -1,5 +1,10 @@
 module Declarative
-  class Hash
+  # Implements the pattern of maintaining a hash of key/values (usually "defaults")
+  # that are mutated several times by user and library code (override defaults).
+  #
+  # The Variables instance then represents the configuration data to be processed by the
+  # using library (e.g. Representable or Trailblazer).
+  class Variables
     def initialize(original)
       @original = original
     end
