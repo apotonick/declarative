@@ -30,7 +30,7 @@ module Declarative
     end # Merge()
 
     def self.Append(appended_array)
-      ->(original) { original += appended_array }
+      ->(original) { (original || []) + appended_array }
     end
   end
 end

@@ -30,6 +30,14 @@ class DSLOptionsTest < Minitest::Spec
     options.must_equal( { id: 1, connections: { first: 1, second: 2 }, :list=>[3, 3, 4, 5] } )
   end
 
+  it "creates new array if original not existent" do
+    options = defaults.merge(
+      another_list: Declarative::Variables::Append( [3, 4, 5] )
+    )
+
+    options.must_equal( { id: 1, connections: { first: 1, second: 2 }, :list=>[3], :another_list=>[3, 4, 5] } )
+  end
+
   it "breaks when Merge can't find source to merge into" do
     assert_raises do
       options = defaults.merge(
