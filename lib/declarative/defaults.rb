@@ -1,16 +1,16 @@
 module Declarative
   class Defaults
     def initialize
-      @static_options  = Variables.new( {} )
-      @dynamic_options = ->(*) { ::Hash.new }
+      @static_options  = {}
+      @dynamic_options = ->(*) { {} }
     end
 
     # Set default values. Usually called in Schema::defaults.
     # This can be called multiple times and will "deep-merge" arrays, e.g. `_features: []`.
     def merge!(hash={}, &block)
-      @static_options = Variables.new( @static_options.merge( handle_array_and_deprecate(hash) ) )
-
+      @static_options  = Variables.merge( @static_options, handle_array_and_deprecate(hash) )
       @dynamic_options = block if block_given?
+
       self
     end
 
@@ -19,8 +19,8 @@ module Declarative
       # TODO: allow to receive rest of options/block in dynamic block. or, rather, test it as it was already implemented.
       evaluated_options = @dynamic_options.(name, given_options)
 
-      options = @static_options.merge( handle_array_and_deprecate(evaluated_options) )
-      options = options.merge( handle_array_and_deprecate(given_options) )
+      options = Declarative::Variables.merge( @static_options, handle_array_and_deprecate(evaluated_options) )
+      options = Declarative::Variables.merge( options, handle_array_and_deprecate(given_options) ) # FIXME: given_options is not tested!
     end
 
     def handle_array_and_deprecate(variables)

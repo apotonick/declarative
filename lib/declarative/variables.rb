@@ -12,7 +12,7 @@ module Declarative
       @original = original
     end
 
-    def merge(hash)
+    def merge(hash) # FIXME: should be private.
       original = @original.merge({}) # todo: use our DeepDup. # TODO: or how could we provide immutability?
 
       hash.each do |k, v| # fixme: REDUNDANT WITH Defaults.Merge
@@ -24,6 +24,11 @@ module Declarative
       end
 
       original
+    end
+
+    # @return Hash hash where `overrides` is merged onto `defaults` respecting Merge, Append etc.
+    def self.merge(defaults, overrides)
+      Variables.new(defaults).merge(overrides)
     end
 
     def self.Merge(merged_hash)
