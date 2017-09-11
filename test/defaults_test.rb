@@ -91,7 +91,6 @@ class DefaultsOptionsTest < Minitest::Spec
         { _features: ["B", "D"] }
       end
 
-      # prints deprecation.
       defaults.(nil, {}).inspect.must_equal "{:_features=>[\"A\", \"B\", \"D\"]}"
 
       $stderr.string.must_equal %{[Declarative] Defaults#merge! and #call still accept arrays and automatically prepend those. This is now deprecated, you should replace `ary` with `Declarative::Variables::Append(ary)`.\n}*2
