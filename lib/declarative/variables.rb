@@ -12,7 +12,7 @@ module Declarative
     def self.merge(defaults, overrides)
       defaults = defaults.merge({}) # todo: use our DeepDup. # TODO: or how could we provide immutability?
 
-      overrides.each do |k, v| # fixme: REDUNDANT WITH Defaults.Merge
+      overrides.each do |k, v|
         if v.is_a?(Variables::Proc)
           defaults[k] = v.( defaults[k] )
         else
@@ -27,7 +27,7 @@ module Declarative
       Variables::Proc.new do |original|
         (original || {}).merge( merged_hash )
       end
-    end # Merge()
+    end
 
     def self.Append(appended_array)
       Variables::Proc.new do |original|
