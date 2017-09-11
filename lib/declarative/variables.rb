@@ -8,27 +8,19 @@ module Declarative
     class Proc < ::Proc
     end
 
-    def initialize(original)
-      @original = original
-    end
+    # @return Hash hash where `overrides` is merged onto `defaults` respecting Merge, Append etc.
+    def self.merge(defaults, overrides)
+      defaults = defaults.merge({}) # todo: use our DeepDup. # TODO: or how could we provide immutability?
 
-    def merge(hash) # FIXME: should be private.
-      original = @original.merge({}) # todo: use our DeepDup. # TODO: or how could we provide immutability?
-
-      hash.each do |k, v| # fixme: REDUNDANT WITH Defaults.Merge
+      overrides.each do |k, v| # fixme: REDUNDANT WITH Defaults.Merge
         if v.is_a?(Variables::Proc)
-          original[k] = v.( original[k] )
+          defaults[k] = v.( defaults[k] )
         else
-          original[k] = v
+          defaults[k] = v
         end
       end
 
-      original
-    end
-
-    # @return Hash hash where `overrides` is merged onto `defaults` respecting Merge, Append etc.
-    def self.merge(defaults, overrides)
-      Variables.new(defaults).merge(overrides)
+      defaults
     end
 
     def self.Merge(merged_hash)
@@ -42,6 +34,5 @@ module Declarative
         (original || []) + appended_array
       end
     end
-
-  end
+  end # Variables
 end
