@@ -50,7 +50,7 @@ module Declarative
         default_options[:_defaults]       = _defaults
         default_options[:_nested_builder] = nested_builder if block
 
-        options = options.merge( Defaults.wrap_arrays(options) )
+        # options = options.merge( Defaults.wrap_arrays(options) )
 
         definitions.add(name, default_options.merge(options), &block)
       end
