@@ -37,7 +37,7 @@ module Declarative
     # same-named arrays.
     def self.wrap_arrays(variables)
       Hash[ variables.
-        find_all { |k,v| v.is_a?(Array) }.
+        find_all { |k,v| v.instance_of?(Array) }.
         collect  { |k,v| [k, Variables::Append(v)] }
       ]
     end
