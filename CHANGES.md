@@ -1,3 +1,18 @@
+# 0.1.0
+
+* `Defaults.merge!` will now deprecate non-wrapped `Array` values. The following code is no longer valid (but still works).
+
+        defaults.merge!( list: [1,2] )
+
+    Instead, you need to wrap it in a command like `Variables::Append`.
+
+        defaults.merge!( list: Declarative::Variables::Append( [1,2] ) )
+
+    The reason for this change is to allow all kinds of operations with defaults variables, such as merges, overrides, append, prepend, and so on.
+
+* Introduce `Declarative::Variables.merge` to merge two sets of variables.
+* `Defaults` now uses `Variables` for merge/overide operations.
+
 # 0.0.9
 
 * Removing `uber` dependency.

@@ -63,17 +63,38 @@ class DefaultsOptionsTest < Minitest::Spec
   describe "multiple Defaults#merge!" do
     it "merges arrays automatically" do
       defaults.merge!(a: 1, b: 2)
-      defaults.merge!(      b: 3, _features: ["A"])
-      defaults.merge!(            _features: ["B", "C"])
+      defaults.merge!(      b: 3, _features: Declarative::Variables::Append(["A"]) )
+      defaults.merge!(            _features: Declarative::Variables::Append(["B", "C"]) )
       defaults.(nil, {}).inspect.must_equal "{:a=>1, :b=>3, :_features=>[\"A\", \"B\", \"C\"]}"
     end
 
     it "what" do
-      defaults.merge!(_features: ["A"]) do |name, options|
-        { _features: ["B", "D"] }
+      defaults.merge!( _features: Declarative::Variables::Append(["A"]) ) do |name, options|
+        { _features: Declarative::Variables::Append( ["B", "D"] ) }
       end
 
       defaults.(nil, {}).inspect.must_equal "{:_features=>[\"A\", \"B\", \"D\"]}"
+    end
+  end
+
+  describe "deprecation" do
+    require 'stringio'
+    before do
+      @old_stderr = $stderr
+      $stderr = StringIO.new
+    end
+
+    after { $stderr = @old_stderr }
+
+    it "prints deprecation twice" do
+      defaults.merge!( _features: ["A"] ) do |name, options|
+        { _features: ["B", "D"] }
+      end
+
+      # prints deprecation.
+      defaults.(nil, {}).inspect.must_equal "{:_features=>[\"A\", \"B\", \"D\"]}"
+
+      $stderr.string.must_equal %{[Declarative] Defaults#merge! and #call still accept arrays and automatically prepend those. This is now deprecated, you should replace `ary` with `Declarative::Variables::Append(ary)`.\n}*2
     end
   end
 end

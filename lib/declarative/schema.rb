@@ -1,5 +1,6 @@
 require "declarative/definitions"
 require "declarative/defaults"
+require "declarative/variables"
 require "declarative/heritage"
 
 module Declarative
@@ -27,6 +28,10 @@ module Declarative
       def defaults(options={}, &block)
         heritage.record(:defaults, options, &block)
 
+        # Always convert arrays to Variables::Append instructions.
+        options = options.merge( Defaults.wrap_arrays(options) )
+        block   = wrap_arrays_from_block(block) if block_given?
+
         _defaults.merge!(options, &block)
       end
 
@@ -45,6 +50,8 @@ module Declarative
         default_options[:_defaults]       = _defaults
         default_options[:_nested_builder] = nested_builder if block
 
+        options = options.merge( Defaults.wrap_arrays(options) )
+
         definitions.add(name, default_options.merge(options), &block)
       end
 
@@ -62,6 +69,16 @@ module Declarative
           class_eval(&options[:_block])
         end
       end
+
+      # When called, executes `block` and wraps all array values in Variables::Append.
+      # This is the default behavior in older versions and allows to provide arrays for
+      # default values that will be prepended.
+      def wrap_arrays_from_block(block)
+        ->(*args) {
+          options = block.(*args)
+          options.merge( Defaults.wrap_arrays( options ) )
+        }
+      end
     end
 
     module Feature
@@ -78,7 +95,7 @@ module Declarative
       def register_feature(mod)
         heritage.record(:register_feature, mod) # this is only for inheritance between decorators and modules!!! ("horizontal and vertical")
 
-        defaults.merge!(_features: [mod])
+        defaults.merge!( _features: Variables::Append([mod]) )
       end
     end
   end
