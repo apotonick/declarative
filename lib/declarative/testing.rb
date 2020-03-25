@@ -1,20 +1,16 @@
 module Declarative
   def self.Inspect(obj)
-    string = obj.inspect
-
-    if obj.is_a?(Proc)
-      elements = string.split("/")
-      string = "#{elements.first}#{elements.last}"
-    end
-    string.gsub(/0x\w+/, "")
+    obj.inspect
   end
 
   module Inspect
     def inspect
       string = super
       if is_a?(Proc)
-        elements = string.split("/")
-        string = "#{elements.first}#{elements.last}"
+        elements = string.split(/[:@ ]/)
+        elements[2] = '@' + File.basename(elements[2])
+        elements.delete_at(1)
+        string = elements.join(':')
       end
       string.gsub(/0x\w+/, "")
     end
