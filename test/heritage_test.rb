@@ -14,7 +14,14 @@ class HeritageTest < Minitest::Spec
     heritage.record(:property, :id, {}, &P)
   end
 
-  it { RepresenterA.heritage.inspect.must_equal "[{:method=>:representation_wrap=, :args=>[true], :block=>nil}, {:method=>:property, :args=>[:name, {:enable=>true}], :block=>nil}, {:method=>:property, :args=>[:id, {}], :block=>#<Proc:@heritage_test.rb:4>}]" }
+  it do
+    if RUBY_VERSION >= '2.7.0'
+      exp = "[{:method=>:representation_wrap=, :args=>[true], :block=>nil}, {:method=>:property, :args=>[:name, {:enable=>true}], :block=>nil}, {:method=>:property, :args=>[:id, {}], :block=>#<Proc: heritage_test.rb:4>}]"
+    else
+      exp = "[{:method=>:representation_wrap=, :args=>[true], :block=>nil}, {:method=>:property, :args=>[:name, {:enable=>true}], :block=>nil}, {:method=>:property, :args=>[:id, {}], :block=>#<Proc:@heritage_test.rb:4>}]"
+    end
+    assert_equal exp, RepresenterA.heritage.inspect
+  end
 
 
   describe "dup of arguments" do
@@ -29,7 +36,14 @@ class HeritageTest < Minitest::Spec
       options[:nested][:parse] = false
     end
 
-    it { B.heritage.inspect.must_equal "[{:method=>:property, :args=>[:name, {:render=>true, :nested=>{:render=>false}}], :block=>#<Proc:@heritage_test.rb:4>}]" }
+    it {
+      if RUBY_VERSION >= '2.7.0'
+        exp = "[{:method=>:property, :args=>[:name, {:render=>true, :nested=>{:render=>false}}], :block=>#<Proc: heritage_test.rb:4>}]"
+      else
+        exp = "[{:method=>:property, :args=>[:name, {:render=>true, :nested=>{:render=>false}}], :block=>#<Proc:@heritage_test.rb:4>}]"
+      end
+      assert_equal exp, B.heritage.inspect
+    }
   end
 
   describe "#call with block" do
@@ -43,7 +57,7 @@ class HeritageTest < Minitest::Spec
 
     it do
       heritage.(CallWithBlock) { |cfg| cfg[:args].last.merge!(_inherited: true) }
-      CallWithBlock.instance_variable_get(:@args).must_equal [:id, {:_inherited=>true}]
+      assert_equal [:id, {:_inherited=>true}], CallWithBlock.instance_variable_get(:@args)
     end
   end
 end

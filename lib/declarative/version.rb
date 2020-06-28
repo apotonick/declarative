@@ -1,3 +1,3 @@
 module Declarative
-  VERSION = "0.0.10"
+  VERSION = "0.0.20"
 end
