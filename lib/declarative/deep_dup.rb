@@ -1,12 +1,18 @@
+# frozen_string_literal: true
+
 module Declarative
-  class DeepDup
+  module DeepDup
     def self.call(args)
-      return Array[*dup_items(args)] if args.is_a?(Array)
-      return ::Hash[dup_items(args)] if args.is_a?(::Hash)
-      args
+      case args
+      when Array
+        Array[*dup_items(args)]
+      when ::Hash
+        ::Hash[dup_items(args)]
+      else
+        args
+      end
     end
 
-  private
     def self.dup_items(arr)
       arr.to_a.collect { |v| call(v) }
     end

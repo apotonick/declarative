@@ -13,13 +13,6 @@ module Declarative
       each { |cfg| call!(inheritor, cfg, &block) }
     end
 
-  private
-    def call!(inheritor, cfg)
-      yield cfg if block_given? # allow messing around with recorded arguments.
-
-      inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
-    end
-
     module DSL
       def heritage
         @heritage ||= Heritage.new
@@ -40,6 +33,13 @@ module Declarative
         super
         heritage.(mod)
       end
+    end
+
+  private
+    def call!(inheritor, cfg)
+      yield cfg if block_given? # allow messing around with recorded arguments.
+
+      inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
     end
   end
 end

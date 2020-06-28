@@ -1,7 +1,7 @@
 module Declarative
   class Definitions < ::Hash
     class Definition
-      def initialize(name, options={}, &block)
+      def initialize(name, options={})
         @options = options.dup
         @options[:name] = name.to_s
       end
@@ -40,7 +40,7 @@ module Declarative
       options = options[:_defaults].(name, options) if options[:_defaults] # FIXME: pipeline?
       base    = options[:_base]
 
-      if options.delete(:inherit) and parent_property = get(name)
+      if options.delete(:inherit) and (parent_property = get(name))
         base    = parent_property[:nested]
         options = parent_property.merge(options) # TODO: Definition#merge
       end

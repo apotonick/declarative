@@ -1,3 +1,6 @@
+# 0.0.20
+* Add support for ruby 2.7
+
 # 0.0.10
 
 * `Defaults.merge!` will now deprecate non-wrapped `Array` values. The following code is no longer valid (but still works).
