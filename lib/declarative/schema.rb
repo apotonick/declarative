@@ -45,9 +45,10 @@ module Declarative
 
     private
       def build_definition(name, options={}, &block)
-        default_options = {}
-        default_options[:_base]           = default_nested_class
-        default_options[:_defaults]       = _defaults
+        default_options = {
+            _base: default_nested_class,
+            _defaults: _defaults
+        }
         default_options[:_nested_builder] = nested_builder if block
 
         # options = options.merge( Defaults.wrap_arrays(options) )

@@ -22,7 +22,7 @@ module Declarative
       evaluated_options = @dynamic_options.(name, given_options)
 
       options = Variables.merge( @static_options, handle_array_and_deprecate(evaluated_options) )
-      options = Variables.merge( options, handle_array_and_deprecate(given_options) ) # FIXME: given_options is not tested!
+      Variables.merge( options, handle_array_and_deprecate(given_options) ) # FIXME: given_options is not tested!
     end
 
     def handle_array_and_deprecate(variables)
