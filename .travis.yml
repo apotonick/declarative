@@ -1,4 +1,7 @@
 language: ruby
+arch:
+  - amd64
+  - ppc64le
 before_install: gem install bundler
 cache: bundler
 rvm:
@@ -10,3 +13,7 @@ rvm:
 jobs:
   allow_failures:
     - rvm: ruby-head
+# ppc64le support code
+    - rvm: ruby-head
+      arch: ppc64le
+      
