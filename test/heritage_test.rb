@@ -20,7 +20,7 @@ class HeritageTest < Minitest::Spec
     else
       exp = "[{:method=>:representation_wrap=, :args=>[true], :block=>nil}, {:method=>:property, :args=>[:name, {:enable=>true}], :block=>nil}, {:method=>:property, :args=>[:id, {}], :block=>#<Proc:@heritage_test.rb:4>}]"
     end
-    assert_equal exp, RepresenterA.heritage.inspect
+    assert_equal exp, CU.inspect(RepresenterA.heritage.inspect)
   end
 
 
@@ -42,7 +42,7 @@ class HeritageTest < Minitest::Spec
       else
         exp = "[{:method=>:property, :args=>[:name, {:render=>true, :nested=>{:render=>false}}], :block=>#<Proc:@heritage_test.rb:4>}]"
       end
-      assert_equal exp, B.heritage.inspect
+      assert_equal exp, CU.inspect(B.heritage.inspect)
     }
   end
 

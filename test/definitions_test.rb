@@ -13,19 +13,19 @@ class DefinitionsTest < Minitest::Spec
     # #add works with name
     schema.add :id
     # get works with symbol
-    _(schema.get(:id).inspect).must_equal '#<Declarative::Definitions::Definition: @options={:name=>"id"}>'
+    assert_equal CU.inspect(schema.get(:id).inspect), '#<Declarative::Definitions::Definition: @options={:name=>"id"}>'
     # get works with string
-    _(schema.get("id").inspect).must_equal '#<Declarative::Definitions::Definition: @options={:name=>"id"}>'
+    assert_equal CU.inspect(schema.get("id").inspect), '#<Declarative::Definitions::Definition: @options={:name=>"id"}>'
 
     # #add with name and options
     schema.add(:id, unique: true)
-    _(schema.get(:id).inspect).must_equal '#<Declarative::Definitions::Definition: @options={:unique=>true, :name=>"id"}>'
+    assert_equal CU.inspect(schema.get(:id).inspect), '#<Declarative::Definitions::Definition: @options={:unique=>true, :name=>"id"}>'
   end
 
   it "overwrites old when called twice" do
     schema.add :id
     schema.add :id, cool: true
-    _(schema.inspect).must_equal '{"id"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :name=>"id"}>}'
+    assert_equal CU.inspect(schema.inspect), '{"id"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :name=>"id"}>}'
   end
 
   it "#add with block" do
@@ -36,7 +36,7 @@ class DefinitionsTest < Minitest::Spec
       end
     end
 
-    _(schema.inspect).must_equal '{"artist"=>#<Declarative::Definitions::Definition: @options={:nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>}, :name=>"band"}>}, :name=>"artist"}>}'
+    assert_equal CU.inspect(schema.inspect), '{"artist"=>#<Declarative::Definitions::Definition: @options={:nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>}, :name=>"band"}>}, :name=>"artist"}>}'
   end
 
   it "#add with :nested instead of block" do
@@ -47,7 +47,7 @@ class DefinitionsTest < Minitest::Spec
 
     schema.add :artist, nested: nested_schema
 
-    _(schema.inspect).must_equal '{"artist"=>#<Declarative::Definitions::Definition: @options={:nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>}, :name=>"artist"}>}'
+    assert_equal CU.inspect(schema.inspect), '{"artist"=>#<Declarative::Definitions::Definition: @options={:nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>}, :name=>"artist"}>}'
   end
 
 
@@ -69,7 +69,7 @@ class DefinitionsTest < Minitest::Spec
 
     schema.add :id, unique: false, inherit: true
 
-    _(schema.inspect).must_equal '{"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>, "genre"=>#<Declarative::Definitions::Definition: @options={:name=>"genre"}>}, :name=>"band", :normal=>false}>}, :name=>"artist", :uncool=>false}>, "id"=>#<Declarative::Definitions::Definition: @options={:unique=>false, :value=>1, :name=>"id"}>}'
+    assert_equal CU.inspect(schema.inspect), '{"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>, "genre"=>#<Declarative::Definitions::Definition: @options={:name=>"genre"}>}, :name=>"band", :normal=>false}>}, :name=>"artist", :uncool=>false}>, "id"=>#<Declarative::Definitions::Definition: @options={:unique=>false, :value=>1, :name=>"id"}>}'
   end
 
   it "#add with nested options followed by inherit: true" do

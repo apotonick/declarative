@@ -6,7 +6,7 @@ class DSLOptionsTest < Minitest::Spec
   Variables = Declarative::Variables
 
   after do
-    _(Declarative::Inspect(defaults)).must_equal %{{:id=>1, :connections=>{:first=>1, :second=>2}, :list=>[3]}}
+    assert_equal CU.inspect(Declarative::Inspect(defaults)), %{{:id=>1, :connections=>{:first=>1, :second=>2}, :list=>[3]}}
   end
 
   #- Merge

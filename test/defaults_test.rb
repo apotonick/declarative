@@ -15,7 +15,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      _(schema.inspect).must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"TITLE", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION", :name=>"description"}>}'
+      assert_equal CU.inspect(schema), %({"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"TITLE", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION", :name=>"description"}>})
     end
   end
 
@@ -29,7 +29,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      _(schema.inspect).must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:as=>"TITLE", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:as=>"DESCRIPTION", :name=>"description"}>}'
+      assert_equal CU.inspect(schema), %({"title"=>#<Declarative::Definitions::Definition: @options={:as=>"TITLE", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:as=>"DESCRIPTION", :name=>"description"}>})
     end
   end
 
@@ -41,7 +41,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      _(schema.inspect).must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :name=>"description"}>}'
+      assert_equal CU.inspect(schema), %({"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :name=>"description"}>})
     end
   end
 
@@ -55,7 +55,7 @@ class DefaultsOptionsTest < Minitest::Spec
       schema.add :author_name
       schema.add :description, _defaults: defaults
 
-      _(schema.inspect).must_equal '{"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"Title", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION", :name=>"description"}>}'
+      assert_equal CU.inspect(schema), %({"title"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"Title", :name=>"title"}>, "author_name"=>#<Declarative::Definitions::Definition: @options={:name=>"author_name"}>, "description"=>#<Declarative::Definitions::Definition: @options={:render_nil=>true, :as=>"DESCRIPTION", :name=>"description"}>})
     end
   end
 
@@ -65,7 +65,7 @@ class DefaultsOptionsTest < Minitest::Spec
       defaults.merge!(a: 1, b: 2)
       defaults.merge!(      b: 3, _features: Declarative::Variables::Append(["A"]) )
       defaults.merge!(            _features: Declarative::Variables::Append(["B", "C"]) )
-      _(defaults.(nil, {}).inspect).must_equal "{:a=>1, :b=>3, :_features=>[\"A\", \"B\", \"C\"]}"
+      assert_equal CU.inspect(defaults.(nil, {})), "{:a=>1, :b=>3, :_features=>[\"A\", \"B\", \"C\"]}"
     end
 
     it "what" do
@@ -73,7 +73,7 @@ class DefaultsOptionsTest < Minitest::Spec
         { _features: Declarative::Variables::Append( ["B", "D"] ) }
       end
 
-      _(defaults.(nil, {}).inspect).must_equal "{:_features=>[\"A\", \"B\", \"D\"]}"
+      assert_equal CU.inspect(defaults.(nil, {})), "{:_features=>[\"A\", \"B\", \"D\"]}"
     end
   end
 
@@ -91,7 +91,7 @@ class DefaultsOptionsTest < Minitest::Spec
         { _features: ["B", "D"] }
       end
 
-      assert_equal "{:_features=>[\"A\", \"B\", \"D\"]}", defaults.(nil, {}).inspect
+      assert_equal CU.inspect(defaults.(nil, {})), "{:_features=>[\"A\", \"B\", \"D\"]}"
 
       assert_equal %{[Declarative] Defaults#merge! and #call still accept arrays and automatically prepend those. This is now deprecated, you should replace `ary` with `Declarative::Variables::Append(ary)`.\n}*2, $stderr.string
     end

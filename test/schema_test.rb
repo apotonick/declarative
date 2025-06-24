@@ -36,7 +36,8 @@ class SchemaTest < Minitest::Spec
   it do
     Concrete.extend(Declarative::Inspect::Schema)
     Concrete.inspect
-    _(Concrete.inspect.gsub(/\s/, "")).must_equal 'Schema:{
+
+    assert_equal CU.inspect(Concrete.inspect).gsub(/\s/, ""), 'Schema:{
     "links"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"LINKS",:name=>"links"}>,
     "artist"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"ARTIST",:cool=>true,:nested=>Schema:{
       "links"=>#<Declarative::Definitions::Definition:@options={:name=>"links"}>,
@@ -56,7 +57,7 @@ class SchemaTest < Minitest::Spec
   it do
     InheritingConcrete.extend(Declarative::Inspect::Schema)
     InheritingConcrete.inspect
-    _(InheritingConcrete.inspect.gsub(/\s/, "")).must_equal 'Schema:{
+    assert_equal CU.inspect(InheritingConcrete.inspect).gsub(/\s/, ""), 'Schema:{
     "links"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"LINKS",:name=>"links"}>,
     "artist"=>#<Declarative::Definitions::Definition:@options={:render_nil=>true,:as=>"ARTIST",:cool=>true,:nested=>Schema:{
       "links"=>#<Declarative::Definitions::Definition:@options={:name=>"links"}>,
@@ -81,7 +82,7 @@ class SchemaTest < Minitest::Spec
     end
 
     it do
-      _(ConcreteWithOptions.extend(Declarative::Inspect::Schema).inspect).must_equal 'Schema: {"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>#<OpenStruct cool=true>, :name=>"artist"}>}'
+      assert_equal CU.inspect(ConcreteWithOptions.extend(Declarative::Inspect::Schema).inspect), 'Schema: {"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>#<OpenStruct cool=true>, :name=>"artist"}>}'
     end
   end
 
@@ -105,7 +106,7 @@ class SchemaTest < Minitest::Spec
     end
 
     it do
-      _(Twin.extend(Declarative::Inspect::Schema).inspect).must_equal 'Schema: {"id"=>#<Declarative::Definitions::Definition: @options={:a=>"a", :b=>"b", :first=>1, :nested=>Schema: {}, :name=>"id"}>}'
+      assert_equal CU.inspect(Twin.extend(Declarative::Inspect::Schema).inspect), 'Schema: {"id"=>#<Declarative::Definitions::Definition: @options={:a=>"a", :b=>"b", :first=>1, :nested=>Schema: {}, :name=>"id"}>}'
       # :_features get merged.
       Twin.definitions.get(:id)[:nested].is_a? Twin::A
       Twin.definitions.get(:id)[:nested].is_a? Twin::B
