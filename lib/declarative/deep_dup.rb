@@ -5,9 +5,11 @@ module Declarative
     def self.call(args)
       case args
       when Array
-        Array[*dup_items(args)]
+        dup_items(args)
       when ::Hash
-        ::Hash[dup_items(args)]
+        result = {}
+        args.each_pair { |key, value| result[call(key)] = call(value) }
+        result
       else
         args
 
