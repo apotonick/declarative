@@ -72,6 +72,15 @@ class DefinitionsTest < Minitest::Spec
     assert_equal CU.inspect(schema.inspect), '{"artist"=>#<Declarative::Definitions::Definition: @options={:cool=>true, :nested=>{"name"=>#<Declarative::Definitions::Definition: @options={:name=>"name"}>, "band"=>#<Declarative::Definitions::Definition: @options={:crazy=>nil, :nested=>{"location"=>#<Declarative::Definitions::Definition: @options={:name=>"location"}>, "genre"=>#<Declarative::Definitions::Definition: @options={:name=>"genre"}>}, :name=>"band", :normal=>false}>}, :name=>"artist", :uncool=>false}>, "id"=>#<Declarative::Definitions::Definition: @options={:unique=>false, :value=>1, :name=>"id"}>}'
   end
 
+  it "#add preserves frozen caller options" do
+    options = {visible: true}.freeze
+
+    schema.add(:name, options)
+
+    _(options).must_equal(visible: true)
+    _(schema.get(:name)[:visible]).must_equal(true)
+  end
+
   it "#add with nested options followed by inherit: true" do
     schema.add :id, deserializer: options = { render: false }
     schema.add :id, inherit: true
