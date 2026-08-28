@@ -24,6 +24,14 @@ class HeritageTest < Minitest::Spec
   end
 
 
+  it "normalizes relative Proc source paths once" do
+    callback = eval("proc {}", binding, "relative.rb", 1)
+    assert_equal "#<Proc: relative.rb:1>", Declarative::Inspect(callback)
+
+    callback.extend(Declarative::Inspect)
+    assert_equal "#<Proc: relative.rb:1>", callback.inspect
+  end
+
   describe "dup of arguments" do
     module B
       extend Declarative::Heritage::DSL
