@@ -36,10 +36,9 @@ module Declarative
     # Wrap arrays in `variables` with Variables::Append so they get appended to existing
     # same-named arrays.
     def self.wrap_arrays(variables)
-      Hash[ variables.
-        find_all { |k,v| v.instance_of?(Array) }.
-        collect  { |k,v| [k, Variables::Append(v)] }
-      ]
+      wrapped = {}
+      variables.each { |key, value| wrapped[key] = Variables::Append(value) if value.instance_of?(Array) }
+      wrapped
     end
   end
 end

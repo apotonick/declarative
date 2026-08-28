@@ -1,3 +1,7 @@
+# Unreleased
+
+* Avoid intermediate arrays when deep-copying configuration containers and wrapping default arrays.
+
 # 0.0.10
 
 * `Defaults.merge!` will now deprecate non-wrapped `Array` values. The following code is no longer valid (but still works).

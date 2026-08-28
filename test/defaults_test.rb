@@ -77,6 +77,18 @@ class DefaultsOptionsTest < Minitest::Spec
     end
   end
 
+  describe "container copying" do
+    it "copies nested arrays and hashes without changing values" do
+      input = {"option" => {values: [1, {enabled: true}]}}
+      copy = Declarative::DeepDup.(input)
+
+      _(copy).must_equal(input)
+      refute_same input, copy
+      refute_same input["option"], copy["option"]
+      refute_same input["option"][:values], copy["option"][:values]
+    end
+  end
+
   describe "deprecation" do
     require 'stringio'
     before do
