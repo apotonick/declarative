@@ -37,6 +37,7 @@ module Declarative
     #   :_base
     #   :_nested_builder
     def add(name, options={}, &block)
+      options = options.dup
       options = options[:_defaults].(name, options) if options[:_defaults] # FIXME: pipeline?
       base    = options[:_base]
 
