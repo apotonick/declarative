@@ -5,9 +5,13 @@ module Declarative
     def self.call(args)
       case args
       when Array
-        Array[*dup_items(args)]
+        dup_items(args)
       when ::Hash
-        ::Hash[dup_items(args)]
+        copy = ::Hash[dup_items(args)]
+        if Hash.respond_to?(:ruby2_keywords_hash?) && Hash.ruby2_keywords_hash?(args)
+          copy = Hash.ruby2_keywords_hash(copy)
+        end
+        copy
       else
         args
 

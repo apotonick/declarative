@@ -7,6 +7,8 @@ module Declarative
       self << {method: method, args: DeepDup.(args), block: block} # DISCUSS: options.dup.
     end
 
+    ruby2_keywords(:record) if respond_to?(:ruby2_keywords, true)
+
     # Replay the recorded assignments on inheritor.
     # Accepts a block that will allow processing the arguments for every recorded statement.
     def call(inheritor, &block)
