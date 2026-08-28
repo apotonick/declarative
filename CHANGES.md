@@ -1,3 +1,7 @@
+# Unreleased
+
+* Normalize Proc source paths without duplicating relative or native Proc descriptions.
+
 # 0.0.10
 
 * `Defaults.merge!` will now deprecate non-wrapped `Array` values. The following code is no longer valid (but still works).
