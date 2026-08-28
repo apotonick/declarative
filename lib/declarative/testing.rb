@@ -4,9 +4,8 @@ module Declarative
   def self.Inspect(obj)
     string = obj.inspect
 
-    if obj.is_a?(Proc)
-      elements = string.split('/')
-      string = "#{elements.first}#{elements.last}"
+    if obj.is_a?(Proc) && (location = obj.source_location)
+      string = string.sub(location.first) { File.basename(location.first) }
     end
     string.gsub(/0x\w+/, '')
   end
@@ -14,9 +13,8 @@ module Declarative
   module Inspect
     def inspect
       string = super
-      if is_a?(Proc)
-        elements = string.split('/')
-        string = "#{elements.first}#{elements.last}"
+      if is_a?(Proc) && (location = source_location)
+        string = string.sub(location.first) { File.basename(location.first) }
       end
       string.gsub(/0x\w+/, '')
     end
