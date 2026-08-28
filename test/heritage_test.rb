@@ -24,6 +24,18 @@ class HeritageTest < Minitest::Spec
   end
 
 
+  it "preserves keyword arguments when replaying" do
+    heritage = Declarative::Heritage.new.record(:configure, enabled: true)
+    target = Class.new do
+      def self.configure(enabled:)
+        @enabled = enabled
+      end
+    end
+
+    heritage.(target)
+    assert_equal true, target.instance_variable_get(:@enabled)
+  end
+
   describe "dup of arguments" do
     module B
       extend Declarative::Heritage::DSL
