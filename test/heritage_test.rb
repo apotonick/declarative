@@ -46,6 +46,28 @@ class HeritageTest < Minitest::Spec
     }
   end
 
+  describe "#call argument isolation" do
+    it do
+      heritage = Declarative::Heritage.new.record(:property, :id, nested: [])
+      target = Class.new do
+        class << self
+          attr_reader :options
+
+          def property(_name, options)
+            (@options ||= []) << options
+            options[:nested] << :changed
+          end
+        end
+      end
+
+      2.times { heritage.(target) }
+
+      assert_equal [[:changed], [:changed]], target.options.map { |options| options[:nested] }
+      refute_same target.options[0], target.options[1]
+      assert_equal [], heritage.first[:args].last[:nested]
+    end
+  end
+
   describe "#call with block" do
     let (:heritage) { Declarative::Heritage.new.record(:property, :id, {}) }
 
