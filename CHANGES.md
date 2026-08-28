@@ -1,3 +1,7 @@
+# Unreleased
+
+* Copy recorded container arguments before replay so one inheritor cannot mutate later replays.
+
 # 0.0.10
 
 * `Defaults.merge!` will now deprecate non-wrapped `Array` values. The following code is no longer valid (but still works).

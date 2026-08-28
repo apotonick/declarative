@@ -39,7 +39,7 @@ module Declarative
     def call!(inheritor, cfg)
       yield cfg if block_given? # allow messing around with recorded arguments.
 
-      inheritor.send(cfg[:method], *cfg[:args], &cfg[:block])
+      inheritor.send(cfg[:method], *DeepDup.(cfg[:args]), &cfg[:block])
     end
   end
 end
